@@ -1,0 +1,45 @@
+.container {
+  padding: 20px;
+}
+
+/* --- Estilos de Admin --- */
+.admin-view button {
+  margin-bottom: 16px;
+}
+
+.admin-view table {
+  width: 100%;
+}
+
+.product-image-table {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* --- Estilos de Cliente --- */
+.client-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  max-width: 400px;
+}
+
+.mat-card-actions {
+  justify-content: flex-end;
+}
+
+/* En features/producto-list/producto-list.component.css */
+.login-prompt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,39 @@
+<div class="dashboard-container" *ngIf="stats$ | async as stats; else loading">
+
+  <mat-card class="stat-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>inventory_2</mat-icon>
+      <mat-card-title>{{ stats.totalProductos }}</mat-card-title>
+      <mat-card-subtitle>Total de Productos</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>groups</mat-icon>
+      <mat-card-title>{{ stats.totalClientes }}</mat-card-title>
+      <mat-card-subtitle>Total de Clientes</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-card class="stat-card low-stock">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>warning</mat-icon>
+      <mat-card-title>{{ stats.productosBajoStock }}</mat-card-title>
+      <mat-card-subtitle>Productos con Bajo Stock</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>shopping_basket</mat-icon>
+      <mat-card-title>{{ stats.totalPedidos }}</mat-card-title>
+      <mat-card-subtitle>Total de Pedidos</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+</div>
+
+<ng-template #loading>
+  <p>Cargando estadísticas...</p>
+</ng-template>

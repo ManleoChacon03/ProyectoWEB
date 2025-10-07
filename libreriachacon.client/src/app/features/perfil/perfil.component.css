@@ -1,0 +1,41 @@
+/* Contenedor principal que envuelve todo. 
+   Le damos un margen, padding y una sombra para que "flote" sobre el fondo. */
+.container {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+}
+
+/* Estilo para la barra de búsqueda.
+   Hacemos que no ocupe todo el ancho para que se vea más limpia. */
+.mat-form-field {
+  width: 40%;
+  min-width: 250px;
+  font-size: 14px;
+}
+
+/* Asegura que la tabla ocupe todo el ancho disponible de su contenedor. */
+table {
+  width: 100%;
+}
+
+/* Estilos para las cabeceras de la tabla.
+   Hacemos el texto un poco más grueso para que destaque. */
+.mat-header-cell {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Estilo específico para la columna de "Acciones".
+   Le damos un ancho fijo y alineamos el contenido al centro
+   para que el botón de eliminar no se mueva al cambiar el tamaño de la ventana. */
+.mat-column-acciones {
+  width: 100px;
+  text-align: center;
+}
+
+/* Le da un poco de espacio superior al paginador para separarlo de la tabla. */
+.mat-paginator {
+  margin-top: 16px;
+}

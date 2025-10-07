@@ -1,0 +1,6 @@
+@LibreriaChacon.Server_HostAddress = http://localhost:5134
+
+GET {{LibreriaChacon.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

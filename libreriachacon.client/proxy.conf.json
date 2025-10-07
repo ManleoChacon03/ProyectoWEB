@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "https://localhost:5134",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
+
+"applicationUrl": "http://localhost:5134",
