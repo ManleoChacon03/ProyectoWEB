@@ -1,0 +1,40 @@
+<div class="pedidos-container">
+  <h1>Mis Pedidos</h1>
+
+  <div *ngIf="pedidos.length > 0; else noPedidos">
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let pedido of pedidos">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Pedido #{{ pedido.id }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <span>Fecha: {{ pedido.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+            <span>Estado: {{ pedido.estado }}</span>
+            <span>Total: {{ pedido.montoTotal | currency:'Q' }}</span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <h4>Detalles del Pedido</h4>
+        <div class="detalle-grid">
+          <div *ngFor="let item of pedido.detallePedido" class="detalle-item">
+            <img [src]="item.producto.imagenUrl || 'https://via.placeholder.com/80'" alt="{{ item.producto.nombre }}">
+            <div class="item-info">
+              <strong>{{ item.producto.nombre }}</strong>
+              <span>Cantidad: {{ item.cantidad }}</span>
+              <span>Precio unitario: {{ item.precioCompra | currency:'Q' }}</span>
+            </div>
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <ng-template #noPedidos>
+    <mat-card class="empty-card">
+      <mat-icon>receipt_long</mat-icon>
+      <h2>Aún no has realizado ningún pedido.</h2>
+    </mat-card>
+  </ng-template>
+</div>

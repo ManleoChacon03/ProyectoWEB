@@ -1,0 +1,43 @@
+.pos-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  padding: 20px;
+}
+
+.search-bar {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.total {
+  text-align: right;
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+.cliente-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.finalizar-btn {
+  width: 100%;
+  padding: 20px 0;
+  margin-top: 30px;
+}
+
+.quantity-input {
+  width: 80px;
+}
+
+/* Este código quita el espacio extra que añade mat-form-field para los mensajes de error,
+   haciendo que se vea más compacto en la tabla. */
+::ng-deep .quantity-input .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}

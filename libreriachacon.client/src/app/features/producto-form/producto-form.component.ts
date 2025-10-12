@@ -1,34 +1,24 @@
 // En features/producto-form/producto-form.component.ts
-
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { Categoria } from '../../core/models/categoria.model'; // <-- Asegúrate de tener esta importación
-import { CategoriaService } from '../../core/services/categoria.service'; // <-- **CORRECCIÓN 1: FALTABA ESTA LÍNEA**
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { Categoria } from '../../core/models/categoria.model';
+import { CategoriaService } from '../../core/services/categoria.service';
 import { ProductoService } from '../../core/services/producto.service';
 import { ProductoDto } from '../../core/models/producto.dto.model';
-
-// ... (El resto de tus imports de Material y otros módulos)
+import { Producto } from '../../core/models/producto.model';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogModule } from '@angular/material/dialog';
-
 
 @Component({
   selector: 'app-producto-form',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDialogModule
+    CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
+    MatButtonModule, MatSelectModule, MatDialogModule
   ],
   templateUrl: './producto-form.component.html',
   styleUrls: ['./producto-form.component.css']
@@ -37,21 +27,41 @@ export class ProductoFormComponent implements OnInit {
 
   productoForm: FormGroup;
   categorias: Categoria[] = [];
+  esModoEdicion: boolean;
 
   constructor(
     private fb: FormBuilder,
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
-    public dialogRef: MatDialogRef<ProductoFormComponent>
+    public dialogRef: MatDialogRef<ProductoFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Producto | null
   ) {
+    // --- ORDEN CORREGIDO ---
+
+    // 1. Primero, creamos SIEMPRE la estructura del formulario (vacío).
+    //    Con esto, 'productoForm' ya tiene un valor y el primer error desaparece.
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: [''],
       precio: [0, [Validators.required, Validators.min(0.01)]],
       cantidadStock: [0, [Validators.required, Validators.min(0)]],
       imagenUrl: [''],
-      categoriaIds: [[], Validators.required]
+      categoriaIds: [[], Validators.required],
+      precioMayorista: [null],
+      cantidadMayorista: [null]
     });
+
+    // 2. Luego, determinamos si es modo edición.
+    //    Con esto, 'esModoEdicion' ya tiene un valor y el segundo error desaparece.
+    this.esModoEdicion = !!this.data;
+
+    // 3. FINALMENTE, si es modo edición, llenamos el formulario que ya existe.
+    //    Esto arregla el error de usar 'patchValue' antes de tiempo.
+    if (this.esModoEdicion && this.data) {
+      this.productoForm.patchValue(this.data);
+      const categoriaIds = this.data.categorias.map(c => c.id);
+      this.productoForm.get('categoriaIds')?.setValue(categoriaIds);
+    }
   }
 
   ngOnInit(): void {
@@ -59,7 +69,6 @@ export class ProductoFormComponent implements OnInit {
   }
 
   cargarCategorias(): void {
-    // **CORRECCIÓN 2: AÑADIR EL TIPO (data: Categoria[])**
     this.categoriaService.getCategorias().subscribe((data: Categoria[]) => {
       this.categorias = data;
     });
@@ -72,10 +81,17 @@ export class ProductoFormComponent implements OnInit {
 
     const productoDto: ProductoDto = this.productoForm.value;
 
-    this.productoService.addProducto(productoDto).subscribe(() => {
-      alert('Producto creado con éxito');
-      this.dialogRef.close(true);
-    });
+    if (this.esModoEdicion && this.data) {
+      this.productoService.updateProducto(this.data.id, productoDto).subscribe(() => {
+        alert('Producto actualizado con éxito');
+        this.dialogRef.close(true);
+      });
+    } else {
+      this.productoService.addProducto(productoDto).subscribe(() => {
+        alert('Producto creado con éxito');
+        this.dialogRef.close(true);
+      });
+    }
   }
 
   cancelar(): void {

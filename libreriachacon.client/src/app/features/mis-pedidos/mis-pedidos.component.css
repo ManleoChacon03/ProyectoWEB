@@ -1,0 +1,49 @@
+.pedidos-container {
+  padding: 20px;
+}
+
+.mat-expansion-panel-header {
+  font-size: 1.1em;
+}
+
+.mat-panel-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detalle-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.detalle-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+  .detalle-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+  }
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 40px;
+}
+
+  .empty-card mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+  }

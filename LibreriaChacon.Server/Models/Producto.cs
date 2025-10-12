@@ -31,6 +31,12 @@
         [Column("esta_activo")]
         public bool EstaActivo { get; set; }
 
+        [Column("precio_mayorista", TypeName = "decimal(18, 2)")] // <-- AÑADIDO
+        public decimal? PrecioMayorista { get; set; }
+
+        [Column("cantidad_mayorista")] // <-- AÑADIDO
+        public int? CantidadMayorista { get; set; }
+
         public ICollection<Categoria> Categorias { get; set; } = new List<Categoria>();
     }
 }

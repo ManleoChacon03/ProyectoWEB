@@ -35,6 +35,11 @@ import { LoginComponent } from './features/login/login.component';
 import { RegistroComponent } from './features/registro/registro.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { VentaTiendaComponent } from './features/venta-tienda/venta-tienda.component';
+import { ReportesComponent } from './features/reportes/reportes.component';
+import { CarritoComponent } from './features/carrito/carrito.component';
+import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.component';
+import { PedidosComponent } from './features/pedidos/pedidos.component';
 
 registerLocaleData(localeGt, 'es-GT');
 @NgModule({
@@ -73,6 +78,11 @@ registerLocaleData(localeGt, 'es-GT');
     RegistroComponent,
     LayoutComponent,
     DashboardComponent,
+    VentaTiendaComponent,
+    ReportesComponent,
+    CarritoComponent,
+    MisPedidosComponent,
+    PedidosComponent,
   ],
   // --- AÑADIDO: REGISTRO DEL INTERCEPTOR ---
   providers: [

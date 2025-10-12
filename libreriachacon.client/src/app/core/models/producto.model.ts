@@ -8,6 +8,11 @@ export interface Producto {
   precio: number;
   cantidadStock: number;
   fechaCreacion: Date;
-  imagenUrl: string | null; // <-- AÑADE ESTA LÍNEA
+  imagenUrl: string | null;
   categorias: Categoria[];
+  estaActivo: boolean; // Esta propiedad también faltaba aquí
+
+  // --- AÑADE ESTAS DOS LÍNEAS ---
+  precioMayorista: number | null;
+  cantidadMayorista: number | null;
 }

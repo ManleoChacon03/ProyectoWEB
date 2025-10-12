@@ -12,6 +12,8 @@ import { ProductoService } from '../../core/services/producto.service';
 import { Categoria } from '../../core/models/categoria.model';
 import { CategoriaService } from '../../core/services/categoria.service';
 import { AuthService } from '../../core/services/auth.service';
+import { CarritoService } from '../../core/services/carrito.service'; // <-- Importa el servicio
+
 
 // --- Imports Adicionales ---
 import { CommonModule } from '@angular/common';
@@ -66,6 +68,7 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
+    private carritoService: CarritoService, // <-- Inyéctalo
     public dialog: MatDialog
   ) {
     this.userSubscription = new Subscription();
@@ -171,5 +174,9 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     const startIndex = pageIndex * pageSize;
     const endIndex = startIndex + pageSize;
     this.productosPaginados = this.productosFiltrados.slice(startIndex, endIndex);
+  }
+  anadirAlCarrito(producto: Producto): void {
+    this.carritoService.addItem(producto);
+    alert(`'${producto.nombre}' fue añadido al carrito.`); // Usamos un alert simple por ahora
   }
 }

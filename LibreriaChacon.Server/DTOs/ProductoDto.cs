@@ -9,5 +9,7 @@
         public int CantidadStock { get; set; }
         public string? ImagenUrl { get; set; }
         public List<int> CategoriaIds { get; set; } = new List<int>();
+        public decimal? PrecioMayorista { get; set; }
+        public int? CantidadMayorista { get; set; }
     }
 }

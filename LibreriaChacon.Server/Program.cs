@@ -5,9 +5,16 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using QuestPDF.Infrastructure; // <-- AÑADE ESTE USING
+using OfficeOpenXml;          // <-- AÑADE ESTE USING
 // ------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
+
+// --- AÑADIDO: CONFIGURACIÓN DE LICENCIAS ---
+QuestPDF.Settings.License = LicenseType.Community;
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+// -------------------
 
 // Add services to the container.
 

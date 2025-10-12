@@ -21,6 +21,8 @@
         public DbSet<ReseñaProducto> ReseñasProducto { get; set; }
         public DbSet<Pago> Pagos { get; set; }
         public DbSet<Devolucion> Devoluciones { get; set; }
+        public DbSet<DetalleDevolucion> DetalleDevolucion { get; set; } // <-- AÑADE ESTA LÍNEA
+
         // -----------------------------------------------
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

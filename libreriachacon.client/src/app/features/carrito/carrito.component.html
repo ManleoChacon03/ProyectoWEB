@@ -1,0 +1,62 @@
+<div class="cart-container">
+  <h1>Mi Carrito de Compras</h1>
+
+  <div *ngIf="cartItems.length > 0; else emptyCart" class="mat-elevation-z8">
+    <table mat-table [dataSource]="cartItems">
+
+      <ng-container matColumnDef="producto">
+        <th mat-header-cell *matHeaderCellDef> Producto </th>
+        <td mat-cell *matCellDef="let item">
+          <div class="product-cell">
+            <img [src]="item.producto.imagenUrl || 'https://via.placeholder.com/60'" alt="{{item.producto.nombre}}">
+            <span>{{ item.producto.nombre }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio Unit. </th>
+        <td mat-cell *matCellDef="let item"> {{ item.producto.precio | currency:'Q' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+        <td mat-cell *matCellDef="let item">
+          <input type="number" [value]="item.cantidad" (change)="actualizarCantidad(item, $event)" min="0" class="quantity-input">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef> Subtotal </th>
+        <td mat-cell *matCellDef="let item"> {{ calcularSubtotal(item) | currency:'Q' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let item">
+          <button mat-icon-button color="warn" (click)="eliminarItem(item.producto.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <ng-template #emptyCart>
+    <mat-card class="empty-cart-card">
+      <mat-icon>remove_shopping_cart</mat-icon>
+      <h2>Tu carrito está vacío</h2>
+      <p>Añade productos desde el catálogo para verlos aquí.</p>
+      <button mat-flat-button color="primary" routerLink="/productos">Ir al Catálogo</button>
+    </mat-card>
+  </ng-template>
+
+  <div *ngIf="cartItems.length > 0" class="cart-summary">
+    <h2>Total: {{ totalCarrito | currency:'Q' }}</h2>
+    <button mat-raised-button color="primary" (click)="procederAlPago()">Proceder al Pago</button>
+  </div>
+
+</div>

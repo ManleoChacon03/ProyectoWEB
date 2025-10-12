@@ -1,0 +1,34 @@
+.report-container {
+  padding: 20px;
+}
+
+.filters-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.results-container {
+  margin-top: 30px;
+}
+
+.export-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+.total-ventas {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 1.5em;
+}

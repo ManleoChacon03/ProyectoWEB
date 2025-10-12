@@ -17,7 +17,7 @@ namespace LibreriaChacon.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -195,84 +195,6 @@ namespace LibreriaChacon.Server.Migrations
                     b.ToTable("pagos");
                 });
 
-            modelBuilder.Entity("LibreriaChacon.Server.Models.Pedido", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("fecha_creacion");
-
-                    b.Property<decimal>("MontoTotal")
-                        .HasColumnType("decimal(18, 2)")
-                        .HasColumnName("monto_total");
-
-                    b.Property<string>("TipoVenta")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("tipo_venta");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("usuario_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("pedidos");
-                });
-
-            modelBuilder.Entity("LibreriaChacon.Server.Models.Perfil", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("fecha_creacion");
-
-                    b.Property<string>("NombreCompleto")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("nombre_completo");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("password");
-
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UrlAvatar")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("url_avatar");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Perfiles");
-                });
-
             modelBuilder.Entity("LibreriaChacon.Server.Models.Producto", b =>
                 {
                     b.Property<long>("Id")
@@ -281,12 +203,20 @@ namespace LibreriaChacon.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<int?>("CantidadMayorista")
+                        .HasColumnType("int")
+                        .HasColumnName("cantidad_mayorista");
+
                     b.Property<int>("CantidadStock")
                         .HasColumnType("int")
                         .HasColumnName("cantidad_stock");
 
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstaActivo")
+                        .HasColumnType("bit")
+                        .HasColumnName("esta_activo");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2")
@@ -303,6 +233,10 @@ namespace LibreriaChacon.Server.Migrations
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal?>("PrecioMayorista")
+                        .HasColumnType("decimal(18, 2)")
+                        .HasColumnName("precio_mayorista");
 
                     b.HasKey("Id");
 
@@ -344,6 +278,94 @@ namespace LibreriaChacon.Server.Migrations
                     b.ToTable("reseñas_producto");
                 });
 
+            modelBuilder.Entity("Pedido", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ClienteNit")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cliente_nit");
+
+                    b.Property<string>("ClienteNombre")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cliente_nombre");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_creacion");
+
+                    b.Property<decimal>("MontoTotal")
+                        .HasColumnType("decimal(18, 2)")
+                        .HasColumnName("monto_total");
+
+                    b.Property<string>("TipoVenta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("tipo_venta");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("usuario_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("pedidos");
+                });
+
+            modelBuilder.Entity("Perfil", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_creacion");
+
+                    b.Property<string>("Nit")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("nit");
+
+                    b.Property<string>("NombreCompleto")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("nombre_completo");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("password");
+
+                    b.Property<string>("Rol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UrlAvatar")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("url_avatar");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("perfiles");
+                });
+
             modelBuilder.Entity("producto_categorias", b =>
                 {
                     b.Property<int>("categoria_id")
@@ -361,7 +383,7 @@ namespace LibreriaChacon.Server.Migrations
 
             modelBuilder.Entity("LibreriaChacon.Server.Models.DetallePedido", b =>
                 {
-                    b.HasOne("LibreriaChacon.Server.Models.Pedido", "Pedido")
+                    b.HasOne("Pedido", "Pedido")
                         .WithMany("DetallePedido")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -380,13 +402,13 @@ namespace LibreriaChacon.Server.Migrations
 
             modelBuilder.Entity("LibreriaChacon.Server.Models.Devolucion", b =>
                 {
-                    b.HasOne("LibreriaChacon.Server.Models.Pedido", "Pedido")
+                    b.HasOne("Pedido", "Pedido")
                         .WithMany()
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LibreriaChacon.Server.Models.Perfil", "Usuario")
+                    b.HasOne("Perfil", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -399,7 +421,7 @@ namespace LibreriaChacon.Server.Migrations
 
             modelBuilder.Entity("LibreriaChacon.Server.Models.Direccion", b =>
                 {
-                    b.HasOne("LibreriaChacon.Server.Models.Perfil", "Usuario")
+                    b.HasOne("Perfil", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -410,24 +432,13 @@ namespace LibreriaChacon.Server.Migrations
 
             modelBuilder.Entity("LibreriaChacon.Server.Models.Pago", b =>
                 {
-                    b.HasOne("LibreriaChacon.Server.Models.Pedido", "Pedido")
+                    b.HasOne("Pedido", "Pedido")
                         .WithMany()
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Pedido");
-                });
-
-            modelBuilder.Entity("LibreriaChacon.Server.Models.Pedido", b =>
-                {
-                    b.HasOne("LibreriaChacon.Server.Models.Perfil", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("LibreriaChacon.Server.Models.ReseñaProducto", b =>
@@ -438,13 +449,24 @@ namespace LibreriaChacon.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LibreriaChacon.Server.Models.Perfil", "Usuario")
+                    b.HasOne("Perfil", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Producto");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Pedido", b =>
+                {
+                    b.HasOne("Perfil", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Usuario");
                 });
@@ -464,7 +486,7 @@ namespace LibreriaChacon.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LibreriaChacon.Server.Models.Pedido", b =>
+            modelBuilder.Entity("Pedido", b =>
                 {
                     b.Navigation("DetallePedido");
                 });

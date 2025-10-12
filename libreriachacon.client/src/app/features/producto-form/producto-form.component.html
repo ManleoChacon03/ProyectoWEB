@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Nuevo Producto</h1>
+<h1 mat-dialog-title>{{ esModoEdicion ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
 
 <div mat-dialog-content>
   <form [formGroup]="productoForm" class="product-form">
@@ -16,6 +16,16 @@
     <mat-form-field appearance="outline">
       <mat-label>Precio</mat-label>
       <input matInput type="number" formControlName="precio" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Precio Mayorista </mat-label>
+      <input matInput type="number" formControlName="precioMayorista">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Cant. Mínima Mayorista </mat-label>
+      <input matInput type="number" formControlName="cantidadMayorista">
     </mat-form-field>
 
     <mat-form-field appearance="outline">

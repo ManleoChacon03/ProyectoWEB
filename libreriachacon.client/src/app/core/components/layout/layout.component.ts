@@ -34,14 +34,24 @@ export class LayoutComponent implements OnInit, OnDestroy {
     { name: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
     { name: 'Perfiles', route: '/perfiles', icon: 'people' },
     { name: 'Productos', route: '/productos', icon: 'inventory_2' },
+    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
+    { name: 'Reportes', route: '/reportes', icon: 'bar_chart' }, // <-- Activa esta línea
+    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
+
   ];
 
   private empleadoMenu = [
     { name: 'Productos', route: '/productos', icon: 'inventory_2' },
+    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
+    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
   ];
 
   private clienteMenu = [
     { name: 'Catálogo', route: '/productos', icon: 'store' },
+    { name: 'Carrito', route: '/carrito', icon: 'shopping_cart' }, // <-- Activa esta línea
+    { name: 'Mis Pedidos', route: '/mis-pedidos', icon: 'receipt_long' }, // <-- Activa esta línea
+
+    // { name: 'Mis Pedidos', route: '/mis-pedidos', icon: 'receipt_long' },
   ];
 
   constructor(private authService: AuthService, private router: Router) {
