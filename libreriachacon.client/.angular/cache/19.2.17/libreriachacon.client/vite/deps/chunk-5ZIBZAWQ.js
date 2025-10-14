@@ -3,13 +3,13 @@ import {
   _bindEventWithOptions
 } from "./chunk-66XLVYJV.js";
 import {
+  BidiModule
+} from "./chunk-MGAKDSZZ.js";
+import {
   Platform,
   coerceElement,
   coerceNumberProperty
 } from "./chunk-XB3MR7JW.js";
-import {
-  BidiModule
-} from "./chunk-MGAKDSZZ.js";
 import {
   DOCUMENT
 } from "./chunk-UT62MKVE.js";
@@ -3177,4 +3177,4 @@ export {
   MATERIAL_SANITY_CHECKS,
   MatCommonModule
 };
-//# sourceMappingURL=chunk-MQCLYW6K.js.map
+//# sourceMappingURL=chunk-5ZIBZAWQ.js.map

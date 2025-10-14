@@ -26,6 +26,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR ESTO
+
 
 @Component({
   selector: 'app-producto-list',
@@ -33,7 +35,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   imports: [
     CommonModule, FormsModule, RouterModule, MatTableModule, MatCardModule, MatButtonModule,
     MatIconModule, MatDialogModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
-    MatInputModule, MatSelectModule, MatSlideToggleModule
+    MatInputModule, MatSelectModule, MatSlideToggleModule, MatTooltipModule 
   ],
   templateUrl: './producto-list.component.html',
   styleUrls: ['./producto-list.component.css']

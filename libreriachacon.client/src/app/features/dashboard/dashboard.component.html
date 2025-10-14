@@ -1,39 +1,96 @@
-<div class="dashboard-container" *ngIf="stats$ | async as stats; else loading">
-
-  <mat-card class="stat-card">
-    <mat-card-header>
-      <mat-icon mat-card-avatar>inventory_2</mat-icon>
-      <mat-card-title>{{ stats.totalProductos }}</mat-card-title>
-      <mat-card-subtitle>Total de Productos</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-
-  <mat-card class="stat-card">
-    <mat-card-header>
-      <mat-icon mat-card-avatar>groups</mat-icon>
-      <mat-card-title>{{ stats.totalClientes }}</mat-card-title>
-      <mat-card-subtitle>Total de Clientes</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-
-  <mat-card class="stat-card low-stock">
-    <mat-card-header>
-      <mat-icon mat-card-avatar>warning</mat-icon>
-      <mat-card-title>{{ stats.productosBajoStock }}</mat-card-title>
-      <mat-card-subtitle>Productos con Bajo Stock</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-
-  <mat-card class="stat-card">
-    <mat-card-header>
-      <mat-icon mat-card-avatar>shopping_basket</mat-icon>
-      <mat-card-title>{{ stats.totalPedidos }}</mat-card-title>
-      <mat-card-subtitle>Total de Pedidos</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
-
+<!-- Content Header (Breadcrumb) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Dashboard</h1>
+      </div>
+      <div class="col-sm-6">
+      </div>
+    </div>
+  </div>
 </div>
 
-<ng-template #loading>
-  <p>Cargando estadísticas...</p>
-</ng-template>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <!-- Stats Cards Row -->
+    <div class="dashboard-container" *ngIf="stats$ | async as stats; else loading">
+
+      <!-- Total Productos Card -->
+      <mat-card class="stat-card stat-card-info">
+        <mat-card-header>
+          <div class="stat-card-icon">
+            <mat-icon>inventory_2</mat-icon>
+          </div>
+          <div class="stat-card-content">
+            <mat-card-title>{{ stats.totalProductos }}</mat-card-title>
+            <mat-card-subtitle>Total de Productos</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <mat-card-footer class="stat-card-footer">
+          
+        </mat-card-footer>
+      </mat-card>
+
+      <!-- Total Clientes Card -->
+      <mat-card class="stat-card stat-card-success">
+        <mat-card-header>
+          <div class="stat-card-icon">
+            <mat-icon>groups</mat-icon>
+          </div>
+          <div class="stat-card-content">
+            <mat-card-title>{{ stats.totalClientes }}</mat-card-title>
+            <mat-card-subtitle>Total de Clientes</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <mat-card-footer class="stat-card-footer">
+          
+        </mat-card-footer>
+      </mat-card>
+
+      <!-- Bajo Stock Card -->
+      <mat-card class="stat-card stat-card-warning">
+        <mat-card-header>
+          <div class="stat-card-icon">
+            <mat-icon>warning</mat-icon>
+          </div>
+          <div class="stat-card-content">
+            <mat-card-title>{{ stats.productosBajoStock }}</mat-card-title>
+            <mat-card-subtitle>Productos con Bajo Stock</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <mat-card-footer class="stat-card-footer">
+          
+        </mat-card-footer>
+      </mat-card>
+
+      <!-- Total Pedidos Card -->
+      <mat-card class="stat-card stat-card-danger">
+        <mat-card-header>
+          <div class="stat-card-icon">
+            <mat-icon>shopping_basket</mat-icon>
+          </div>
+          <div class="stat-card-content">
+            <mat-card-title>{{ stats.totalPedidos }}</mat-card-title>
+            <mat-card-subtitle>Total de Pedidos</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <mat-card-footer class="stat-card-footer">
+         
+        </mat-card-footer>
+      </mat-card>
+
+    </div>
+
+    <!-- Loading Template -->
+    <ng-template #loading>
+      <div class="loading-container">
+        <mat-icon class="loading-spinner">sync</mat-icon>
+        <p>Cargando estadísticas...</p>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

@@ -24,6 +24,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getSpanishPaginatorIntl } from './core/config/mat-paginator-intl';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -92,7 +94,9 @@ registerLocaleData(localeGt, 'es-GT');
   // --- AÑADIDO: REGISTRO DEL INTERCEPTOR ---
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: LOCALE_ID, useValue: 'es-GT' } // <-- AÑADE ESTA LÍNEA
+    { provide: LOCALE_ID, useValue: 'es-GT' }, // <-- AÑADE ESTA LÍNEA
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
+
   ],
   // ------------------------------------------
   bootstrap: [AppComponent]
