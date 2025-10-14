@@ -24,6 +24,10 @@ export interface ReporteVenta {
   clienteNit: string;
   totalItems: number;
   montoTotal: number;
+  montoDevuelto: number;
+  ventaNeta: number;
+  ganancia: number;
+  iva: number;
 }
 
 @Component({
@@ -44,8 +48,10 @@ export class ReportesComponent {
     tipoVenta: new FormControl('Todas')
   });
 
-  displayedColumns: string[] = ['pedidoId', 'fechaVenta', 'tipoVenta', 'clienteNombre', 'totalItems', 'montoTotal'];
+  displayedColumns: string[] = ['pedidoId', 'fechaVenta', 'tipoVenta', 'clienteNombre', 'totalItems', 'montoTotal', 'montoDevuelto', 'ventaNeta', 'iva', 'ganancia'];
   dataSource = new MatTableDataSource<ReporteVenta>();
+  totalVentaNeta = 0;
+  totalGanancia = 0;
   totalGeneralVentas = 0;
 
   constructor(private reporteService: ReporteService) { } // Se inyecta el servicio
@@ -56,8 +62,11 @@ export class ReportesComponent {
       return;
     }
 
-    this.reporteService.getReporteVentas(this.filtroForm.value).subscribe((data: ReporteVenta[]) => { // <-- TIPO AÑADIDO
+    this.reporteService.getReporteVentas(this.filtroForm.value).subscribe((data: ReporteVenta[]) => {
       this.dataSource.data = data;
+      // Actualizamos los totales con los nuevos datos
+      this.totalVentaNeta = data.reduce((sum, item) => sum + item.ventaNeta, 0);
+      this.totalGanancia = data.reduce((sum, item) => sum + item.ganancia, 0);
       this.totalGeneralVentas = data.reduce((sum, item) => sum + item.montoTotal, 0);
     });
   }

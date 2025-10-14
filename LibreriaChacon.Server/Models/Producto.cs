@@ -37,6 +37,9 @@
         [Column("cantidad_mayorista")] // <-- AÑADIDO
         public int? CantidadMayorista { get; set; }
 
+        [Column("costo", TypeName = "decimal(18, 2)")] // <-- AÑADE ESTO
+        public decimal? Costo { get; set; }
+
         public ICollection<Categoria> Categorias { get; set; } = new List<Categoria>();
     }
 }

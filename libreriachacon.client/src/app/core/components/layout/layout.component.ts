@@ -37,6 +37,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
     { name: 'Reportes', route: '/reportes', icon: 'bar_chart' }, // <-- Activa esta línea
     { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
+    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, // <-- Añade esta línea
 
   ];
 
@@ -44,6 +45,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     { name: 'Productos', route: '/productos', icon: 'inventory_2' },
     { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
     { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
+    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, // <-- Añade esta línea
+
   ];
 
   private clienteMenu = [

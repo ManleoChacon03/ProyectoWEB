@@ -6,25 +6,42 @@
       <mat-expansion-panel *ngFor="let pedido of pedidos">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Pedido #{{ pedido.id }}
+            Orden #{{ pedido.id }}
           </mat-panel-title>
           <mat-panel-description>
             <span>Fecha: {{ pedido.fechaCreacion | date:'dd/MM/yyyy' }}</span>
             <span>Estado: {{ pedido.estado }}</span>
-            <span>Total: {{ pedido.montoTotal | currency:'Q' }}</span>
+            <span>Total: {{ calcularVentaNeta(pedido) | currency:'Q' }}</span>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
         <h4>Detalles del Pedido</h4>
+
         <div class="detalle-grid">
           <div *ngFor="let item of pedido.detallePedido" class="detalle-item">
             <img [src]="item.producto.imagenUrl || 'https://via.placeholder.com/80'" alt="{{ item.producto.nombre }}">
             <div class="item-info">
               <strong>{{ item.producto.nombre }}</strong>
-              <span>Cantidad: {{ item.cantidad }}</span>
+              <span>Cantidad: {{ calcularCantidadNeta(item, pedido) }}</span>
               <span>Precio unitario: {{ item.precioCompra | currency:'Q' }}</span>
             </div>
           </div>
+        </div>
+        <div *ngIf="pedido.devoluciones && pedido.devoluciones.length > 0" class="devoluciones-section">
+          <h4>Devoluciones Asociadas</h4>
+          <div *ngFor="let devolucion of pedido.devoluciones" class="devolucion-info">
+            <span><strong>Solicitud #{{ devolucion.id }}:</strong> Estado: <strong>{{ devolucion.estado }}</strong></span>
+            <span>Fecha de Solicitud: {{ devolucion.fechaSolicitud | date:'short' }}</span>
+            <span>Motivo: {{ devolucion.motivo }}</span>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button mat-stroked-button color="primary"
+                  (click)="abrirFormularioDevolucion(pedido)"
+                  [disabled]="pedido.devoluciones && pedido.devoluciones.length > 0">
+            Solicitar Devolución
+          </button>
         </div>
 
       </mat-expansion-panel>

@@ -1,5 +1,7 @@
 // En src/app/core/models/pedido.model.ts
 import { Producto } from "./producto.model";
+import { Devolucion } from "./devolucion.model"; // <-- Importa el modelo de devolución
+
 
 export interface DetallePedido {
   id: number;
@@ -20,4 +22,6 @@ export interface Pedido {
   clienteNit: string | null;
   clienteNombre: string | null;
   detallePedido: DetallePedido[];
+  devoluciones: Devolucion[]; // <-- AÑADE ESTA LÍNEA
+
 }

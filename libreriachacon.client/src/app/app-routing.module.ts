@@ -13,6 +13,8 @@ import { ReportesComponent } from './features/reportes/reportes.component'; // <
 import { CarritoComponent } from './features/carrito/carrito.component'; // <-- 1. Importa
 import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.component'; // <-- 1. Importa
 import { PedidosComponent } from './features/pedidos/pedidos.component'; // <-- 1. Importa
+import { GestionDevolucionesComponent } from './features/gestion-devoluciones/gestion-devoluciones.component'; // <-- Importa
+
 
 
 const routes: Routes = [
@@ -40,6 +42,7 @@ const routes: Routes = [
       { path: 'carrito', component: CarritoComponent }, // <-- 2. Añade la ruta
       { path: 'pedidos', component: PedidosComponent }, // <-- 2. Añade la nueva ruta
       { path: 'mis-pedidos', component: MisPedidosComponent }, // <-- 2. Añade la ruta
+      { path: 'gestion-devoluciones', component: GestionDevolucionesComponent }, // <-- Añade la ruta
 
 
 

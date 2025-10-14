@@ -47,3 +47,25 @@
     width: 64px;
     height: 64px;
   }
+
+.panel-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.devoluciones-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.devolucion-info {
+  background-color: #f0f8ff; /* Un azul pálido */
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.9em;
+}

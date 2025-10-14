@@ -1,6 +1,8 @@
 ﻿// En Models/Devolucion.cs
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic; // <-- Añade este using
+
 
 namespace LibreriaChacon.Server.Models
 {
@@ -25,7 +27,19 @@ namespace LibreriaChacon.Server.Models
         [Column("fecha_solicitud")]
         public DateTime FechaSolicitud { get; set; }
 
+
+        // --- AÑADE ESTAS DOS PROPIEDADES ---
+        [Column("monto_reembolsado", TypeName = "decimal(18, 2)")]
+        public decimal? MontoReembolsado { get; set; }
+
+        [Column("fecha_procesamiento")]
+        public DateTime? FechaProcesamiento { get; set; }
+        // ---
+
+
         public Pedido Pedido { get; set; } = null!;
         public Perfil Usuario { get; set; } = null!;
+        public ICollection<DetalleDevolucion> DetalleDevolucion { get; set; } = new List<DetalleDevolucion>();
+
     }
 }

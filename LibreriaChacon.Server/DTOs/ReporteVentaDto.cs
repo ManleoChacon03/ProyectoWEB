@@ -10,5 +10,9 @@
         public string ClienteNit { get; set; } = string.Empty;
         public int TotalItems { get; set; }
         public decimal MontoTotal { get; set; }
+        public decimal MontoDevuelto { get; set; } // <-- AÑADIDO
+        public decimal Iva { get; set; }           // Para el IVA
+        public decimal Ganancia { get; set; }      // Para la ganancia
+        public decimal VentaNeta => MontoTotal - MontoDevuelto; // Propiedad calculada
     }
 }

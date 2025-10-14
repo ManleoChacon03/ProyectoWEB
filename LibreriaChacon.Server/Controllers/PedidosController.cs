@@ -44,8 +44,10 @@ namespace LibreriaChacon.Server.Controllers
 
             return await _context.Pedidos
                 .Where(p => p.UsuarioId == usuarioId)
-                .Include(p => p.DetallePedido) // Incluimos el detalle de los items
-                    .ThenInclude(d => d.Producto) // Y dentro del detalle, incluimos los datos del producto
+                .Include(p => p.DetallePedido)
+                    .ThenInclude(d => d.Producto)
+                .Include(p => p.Devoluciones) // <-- AÑADE ESTA LÍNEA para incluir las devoluciones
+                            .ThenInclude(d => d.DetalleDevolucion) // <-- AÑADE ESTO para incluir los items devueltos
                 .OrderByDescending(p => p.FechaCreacion)
                 .ToListAsync();
         }

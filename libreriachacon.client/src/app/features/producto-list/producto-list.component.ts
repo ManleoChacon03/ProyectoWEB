@@ -1,6 +1,6 @@
 // En features/producto-list/producto-list.component.ts
 
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ProductoFormComponent } from '../producto-form/producto-form.component';
@@ -12,10 +12,10 @@ import { ProductoService } from '../../core/services/producto.service';
 import { Categoria } from '../../core/models/categoria.model';
 import { CategoriaService } from '../../core/services/categoria.service';
 import { AuthService } from '../../core/services/auth.service';
-import { CarritoService } from '../../core/services/carrito.service'; // <-- Importa el servicio
+import { CarritoService } from '../../core/services/carrito.service';
+import { DataRefreshService } from '../../core/services/data-refresh.service';
 
-
-// --- Imports Adicionales ---
+// --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -35,9 +35,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule, MatDialogModule, MatSortModule, MatPaginatorModule, MatFormFieldModule,
     MatInputModule, MatSelectModule, MatSlideToggleModule
   ],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'es-GT' }
-  ],
   templateUrl: './producto-list.component.html',
   styleUrls: ['./producto-list.component.css']
 })
@@ -46,8 +43,10 @@ export class ProductoListComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
   isLoggedIn: boolean = false;
   private userSubscription: Subscription;
+  private refreshSubscription: Subscription;
 
-  // --- Propiedades para la tabla de Admin ---
+  // --- Propiedades para la vista de Admin ---
+  viendoInactivos = false;
   displayedColumns: string[] = ['imagen', 'nombre', 'precio', 'cantidadStock', 'categorias', 'acciones'];
   dataSource = new MatTableDataSource<Producto>();
   filtrosAdmin = { nombre: '', categoriaId: '', soloBajoStock: false };
@@ -68,10 +67,12 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
     private authService: AuthService,
-    private carritoService: CarritoService, // <-- Inyéctalo
+    private carritoService: CarritoService,
+    private dataRefreshService: DataRefreshService,
     public dialog: MatDialog
   ) {
     this.userSubscription = new Subscription();
+    this.refreshSubscription = new Subscription();
     this.dataSource.filterPredicate = this.crearFiltroAdmin();
   }
 
@@ -80,12 +81,23 @@ export class ProductoListComponent implements OnInit, OnDestroy {
       this.userRole = user ? user.rol : 'Cliente';
       this.isLoggedIn = !!user;
     });
+
+    this.refreshSubscription = this.dataRefreshService.productListRefresh$.subscribe(() => {
+      console.log('Notificación de actualización de productos recibida!');
+      if (this.viendoInactivos) {
+        this.cargarProductosInactivos();
+      } else {
+        this.cargarProductos();
+      }
+    });
+
     this.cargarProductos();
     this.cargarCategorias();
   }
 
   ngOnDestroy(): void {
     if (this.userSubscription) { this.userSubscription.unsubscribe(); }
+    if (this.refreshSubscription) { this.refreshSubscription.unsubscribe(); }
   }
 
   cargarProductos(): void {
@@ -110,10 +122,7 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     return (data: Producto, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
       const busquedaNombre = data.nombre.toLowerCase().includes(searchTerms.nombre.toLowerCase());
-
-      // <-- CORRECCIÓN AQUÍ: Comparamos número con número
       const busquedaCategoria = searchTerms.categoriaId === '' || data.categorias.some(c => c.id === searchTerms.categoriaId);
-
       const busquedaBajoStock = !searchTerms.soloBajoStock || data.cantidadStock < 10;
       return busquedaNombre && busquedaCategoria && busquedaBajoStock;
     };
@@ -128,15 +137,48 @@ export class ProductoListComponent implements OnInit, OnDestroy {
       data: producto
     });
     dialogRef.afterClosed().subscribe(resultado => {
-      if (resultado) { this.cargarProductos(); }
+      if (resultado) {
+        if (this.viendoInactivos) {
+          this.cargarProductosInactivos();
+        } else {
+          this.cargarProductos();
+        }
+      }
     });
   }
 
-  eliminarProducto(id: number): void {
+  toggleVistaProductos(): void {
+    this.viendoInactivos = !this.viendoInactivos;
+    if (this.viendoInactivos) {
+      this.cargarProductosInactivos();
+    } else {
+      this.cargarProductos();
+    }
+  }
+
+  cargarProductosInactivos(): void {
+    this.productoService.getProductosInactivos().subscribe(data => {
+      this.dataSource.data = data;
+    });
+  }
+
+  desactivarProducto(id: number): void {
     if (confirm('¿Estás seguro de que deseas desactivar este producto? Ya no será visible en el catálogo ni se podrá vender.')) {
-      this.productoService.deleteProducto(id).subscribe(() => {
-        alert('Producto desactivado con éxito');
-        this.cargarProductos();
+      this.productoService.deleteProducto(id).subscribe({
+        next: () => {
+          alert('Producto desactivado con éxito');
+          this.cargarProductos();
+        },
+        error: (err) => alert(`Error al desactivar: ${err.error}`)
+      });
+    }
+  }
+
+  reactivarProducto(id: number): void {
+    if (confirm('¿Estás seguro de que deseas reactivar este producto?')) {
+      this.productoService.reactivarProducto(id).subscribe(() => {
+        alert('Producto reactivado con éxito');
+        this.cargarProductosInactivos();
       });
     }
   }
@@ -155,7 +197,6 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     }
     const categoriaId = this.filtrosCliente.categoriaId;
     if (categoriaId) {
-      // <-- CORRECCIÓN AQUÍ: Comparamos número con número
       productos = productos.filter(p => p.categorias.some(c => c.id === Number(categoriaId)));
     }
     this.productosFiltrados = productos;
@@ -175,8 +216,9 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     const endIndex = startIndex + pageSize;
     this.productosPaginados = this.productosFiltrados.slice(startIndex, endIndex);
   }
+
   anadirAlCarrito(producto: Producto): void {
     this.carritoService.addItem(producto);
-    alert(`'${producto.nombre}' fue añadido al carrito.`); // Usamos un alert simple por ahora
+    alert(`'${producto.nombre}' fue añadido al carrito.`);
   }
 }

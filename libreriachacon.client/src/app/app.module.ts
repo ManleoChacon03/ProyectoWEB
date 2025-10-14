@@ -40,12 +40,15 @@ import { ReportesComponent } from './features/reportes/reportes.component';
 import { CarritoComponent } from './features/carrito/carrito.component';
 import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.component';
 import { PedidosComponent } from './features/pedidos/pedidos.component';
+import { DevolucionFormComponent } from './features/devolucion-form/devolucion-form.component';
+import { GestionDevolucionesComponent } from './features/gestion-devoluciones/gestion-devoluciones.component';
 
 registerLocaleData(localeGt, 'es-GT');
 @NgModule({
   declarations: [
     AppComponent,
     CategoriaComponent,
+    
     
     // Este componente parece no ser standalone, por eso se queda aquí.
   ],
@@ -83,6 +86,8 @@ registerLocaleData(localeGt, 'es-GT');
     CarritoComponent,
     MisPedidosComponent,
     PedidosComponent,
+    DevolucionFormComponent,
+    GestionDevolucionesComponent,
   ],
   // --- AÑADIDO: REGISTRO DEL INTERCEPTOR ---
   providers: [

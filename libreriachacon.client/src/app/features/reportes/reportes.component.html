@@ -2,19 +2,15 @@
   <h1>Informe de Ventas</h1>
 
   <div class="filters-card" [formGroup]="filtroForm">
-
     <mat-form-field appearance="outline">
       <mat-label>Rango de Fechas</mat-label>
-
       <mat-date-range-input [rangePicker]="picker">
         <input matStartDate formControlName="fechaInicio" placeholder="Fecha de inicio">
         <input matEndDate formControlName="fechaFin" placeholder="Fecha de fin">
       </mat-date-range-input>
-
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-
     <mat-form-field appearance="outline">
       <mat-label>Tipo de Venta</mat-label>
       <mat-select formControlName="tipoVenta">
@@ -23,7 +19,6 @@
         <mat-option value="EnTienda">En Tienda</mat-option>
       </mat-select>
     </mat-form-field>
-
     <button mat-flat-button color="primary" (click)="generarReporte()">Generar Reporte</button>
   </div>
 
@@ -39,12 +34,20 @@
       <ng-container matColumnDef="tipoVenta"> <th mat-header-cell *matHeaderCellDef> Tipo </th> <td mat-cell *matCellDef="let r"> {{r.tipoVenta}} </td> </ng-container>
       <ng-container matColumnDef="clienteNombre"> <th mat-header-cell *matHeaderCellDef> Cliente </th> <td mat-cell *matCellDef="let r"> {{r.clienteNombre}} </td> </ng-container>
       <ng-container matColumnDef="totalItems"> <th mat-header-cell *matHeaderCellDef> # Items </th> <td mat-cell *matCellDef="let r"> {{r.totalItems}} </td> </ng-container>
-      <ng-container matColumnDef="montoTotal"> <th mat-header-cell *matHeaderCellDef> Monto Total </th> <td mat-cell *matCellDef="let r"> {{r.montoTotal | currency:'Q'}} </td> </ng-container>
+
+      <ng-container matColumnDef="montoTotal"> <th mat-header-cell *matHeaderCellDef> Total Bruto </th> <td mat-cell *matCellDef="let r"> {{r.montoTotal | currency:'Q'}} </td> </ng-container>
+      <ng-container matColumnDef="montoDevuelto"> <th mat-header-cell *matHeaderCellDef> Devuelto </th> <td mat-cell *matCellDef="let r" class="debit-amount">-{{r.montoDevuelto | currency:'Q'}} </td> </ng-container>
+      <ng-container matColumnDef="ventaNeta"> <th mat-header-cell *matHeaderCellDef> Venta Neta </th> <td mat-cell *matCellDef="let r"> {{r.ventaNeta | currency:'Q'}} </td> </ng-container>
+      <ng-container matColumnDef="iva"> <th mat-header-cell *matHeaderCellDef> IVA </th> <td mat-cell *matCellDef="let r"> {{r.iva | currency:'Q'}} </td> </ng-container>
+      <ng-container matColumnDef="ganancia"> <th mat-header-cell *matHeaderCellDef> Ganancia </th> <td mat-cell *matCellDef="let r"> {{r.ganancia | currency:'Q'}} </td> </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <h2 class="total-ventas">Total General de Ventas: {{ totalGeneralVentas | currency:'Q' }}</h2>
+    <div class="totals-summary">
+      <h3 class="total-ventas">Venta Neta Total: {{ totalVentaNeta | currency:'Q' }}</h3>
+      <h2 class="total-ganancia">Ganancia Total: {{ totalGanancia | currency:'Q' }}</h2>
+    </div>
   </div>
 </div>

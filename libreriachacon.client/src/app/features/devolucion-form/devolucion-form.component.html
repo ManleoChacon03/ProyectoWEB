@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Solicitar Devolución del Pedido #{{ pedido.id }}</h1>
+
+<div mat-dialog-content [formGroup]="devolucionForm">
+
+  <p>Selecciona los productos y la cantidad que deseas devolver.</p>
+
+  <div formArrayName="items" class="items-list">
+    <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="product-item">
+      <mat-checkbox formControlName="seleccionar"></mat-checkbox>
+      <div class="product-info">
+        <strong>{{ item.get('nombre')?.value }}</strong>
+        <span>Cantidad comprada: {{ item.get('cantidadOriginal')?.value }}</span>
+      </div>
+      <mat-form-field appearance="outline" class="quantity-input">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" formControlName="cantidad">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-form-field appearance="outline" class="motivo-field">
+    <mat-label>Motivo de la devolución</mat-label>
+    <textarea matInput formControlName="motivo" required></textarea>
+  </mat-form-field>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="solicitar()" [disabled]="devolucionForm.invalid">
+    Enviar Solicitud
+  </button>
+</div>

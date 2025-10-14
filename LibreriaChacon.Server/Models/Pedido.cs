@@ -34,4 +34,6 @@ public class Pedido
     // Propiedades de navegación
     public Perfil Usuario { get; set; } = null!;
     public ICollection<DetallePedido> DetallePedido { get; set; } = new List<DetallePedido>();
+    public ICollection<Devolucion> Devoluciones { get; set; } = new List<Devolucion>();
+
 }

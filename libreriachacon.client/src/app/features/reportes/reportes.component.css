@@ -32,3 +32,18 @@ table {
   margin-top: 20px;
   font-size: 1.5em;
 }
+
+/* ... tus estilos existentes ... */
+.totals-summary {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.total-ganancia {
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+.debit-amount {
+  color: #f44336; /* Color rojo para los montos devueltos */
+}

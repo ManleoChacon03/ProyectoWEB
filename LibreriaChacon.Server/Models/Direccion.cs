@@ -25,6 +25,12 @@ namespace LibreriaChacon.Server.Models
 
         public string? Departamento { get; set; }
 
+        [Column("monto_reembolsado", TypeName = "decimal(18, 2)")] // <-- AÑADIDO
+        public decimal? MontoReembolsado { get; set; }
+
+        [Column("fecha_procesamiento")] // <-- AÑADIDO
+        public DateTime? FechaProcesamiento { get; set; }
+
         [Column("codigo_postal")]
         public string? CodigoPostal { get; set; }
 
