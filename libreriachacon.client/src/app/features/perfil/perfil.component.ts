@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common'; // Necesario para *ngIf, *ngFor, etc.
 import { Perfil } from '../../core/models/perfil.model';
 import { PerfilService } from '../../core/services/perfil.service';
+import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR
+import { RouterModule } from '@angular/router'; // <-- AGREGAR para routerLink
 
 @Component({
   selector: 'app-perfil', // Asegúrate que el selector sea el correcto
@@ -19,12 +21,14 @@ import { PerfilService } from '../../core/services/perfil.service';
     // --- AÑADE ESTE ARRAY DE IMPORTS ---
     CommonModule,
     MatTableModule,
+    RouterModule,
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule 
   ],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']

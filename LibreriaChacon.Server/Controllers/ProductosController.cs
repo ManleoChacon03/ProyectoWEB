@@ -62,7 +62,9 @@ namespace LibreriaChacon.Server.Controllers
                 Categorias = categoriasDelProducto,
                 EstaActivo = true, // <-- AÑADIDO: Aseguramos que el producto nuevo sea activo por defecto
                 PrecioMayorista = productoDto.PrecioMayorista,
-                CantidadMayorista = productoDto.CantidadMayorista
+                CantidadMayorista = productoDto.CantidadMayorista,
+                Costo = productoDto.Costo // <-- AÑADE ESTA LÍNEA
+
             };
 
             _context.Productos.Add(nuevoProducto);
@@ -92,6 +94,8 @@ namespace LibreriaChacon.Server.Controllers
             productoAActualizar.ImagenUrl = productoDto.ImagenUrl;
             productoAActualizar.PrecioMayorista = productoDto.PrecioMayorista;
             productoAActualizar.CantidadMayorista = productoDto.CantidadMayorista;
+            productoAActualizar.Costo = productoDto.Costo; // <-- AÑADE ESTA LÍNEA
+
 
             var nuevasCategorias = await _context.Categorias
                 .Where(c => productoDto.CategoriaIds.Contains(c.Id))

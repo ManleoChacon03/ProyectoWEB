@@ -1,43 +1,530 @@
+/* ===== CONTENT HEADER ===== */
+.content-header {
+  padding: 15px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.content-header h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 0;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #007bff;
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.breadcrumb-item {
+  font-size: 0.875rem;
+}
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    padding: 0 8px;
+    color: #6c757d;
+  }
+
+  .breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .breadcrumb-item.active {
+    color: #6c757d;
+  }
+
+.float-sm-right {
+  float: right;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  padding: 0 20px 20px 20px;
+}
+
+/* ===== POS CONTAINER ===== */
 .pos-container {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 30px;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: #495057;
+}
+
+.header-icon {
+  margin-right: 10px;
+  color: #007bff;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.card-badge {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.card-body {
   padding: 20px;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-wrapper {
+  margin-bottom: 20px;
 }
 
 .search-bar {
   width: 100%;
 }
 
-table {
+/* Opciones del Autocomplete */
+.autocomplete-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+  padding: 5px 0;
+}
+
+.product-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.product-info {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+}
+
+.price {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.stock {
+  color: #6c757d;
+}
+
+  .stock.low-stock {
+    color: #dc3545;
+    font-weight: 600;
+  }
+
+/* ===== TABLA DE ITEMS ===== */
+.table-wrapper {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+}
+
+.items-table {
+  width: 100%;
+}
+
+  .items-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .items-table td {
+    padding: 12px 16px;
+    vertical-align: middle;
+  }
+
+.item-row {
+  transition: background-color 0.2s ease;
+}
+
+  .item-row:hover {
+    background-color: #f8f9fa;
+  }
+
+/* Celda de Producto */
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.product-icon {
+  color: #007bff;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Control de Cantidad */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantity-input {
+  width: 70px;
+}
+
+  .quantity-input input {
+    text-align: center;
+    font-weight: 600;
+  }
+
+/* Ocultar mensajes de error en quantity-input */
+::ng-deep .quantity-input .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+::ng-deep .quantity-input .mat-mdc-form-field-bottom-align {
+  display: none;
+}
+
+.quantity-control button {
+  width: 32px;
+  height: 32px;
+}
+
+  .quantity-control button mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+/* Precio y Subtotal */
+.price-cell {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.subtotal-cell {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+/* ===== EMPTY CART ===== */
+.empty-cart {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+  .empty-cart mat-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    opacity: 0.3;
+    margin-bottom: 20px;
+  }
+
+  .empty-cart p {
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+    font-weight: 500;
+  }
+
+  .empty-cart span {
+    font-size: 0.95rem;
+    color: #868e96;
+  }
+
+/* ===== TOTAL SECTION ===== */
+.total-section {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
   margin-top: 20px;
 }
 
-.total {
-  text-align: right;
-  font-size: 1.5em;
-  margin-top: 20px;
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.cliente-section form {
+.total-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #495057;
+  letter-spacing: 0.5px;
+}
+
+.total-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #28a745;
+}
+
+/* ===== CLIENTE SECTION ===== */
+.cliente-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.cliente-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+  .cliente-form mat-form-field {
+    width: 100%;
+  }
+
+/* ===== SUMMARY CARD ===== */
+.summary-card .card-body {
+  padding: 15px 20px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.95rem;
+}
+
+  .summary-row:last-child {
+    border-bottom: none;
+  }
+
+  .summary-row span {
+    color: #6c757d;
+  }
+
+  .summary-row strong {
+    color: #2c3e50;
+    font-size: 1rem;
+  }
+
+.total-row-summary {
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 2px solid #dee2e6;
+  font-size: 1.1rem;
+}
+
+  .total-row-summary span {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .total-row-summary strong {
+    font-size: 1.3rem;
+    color: #28a745;
+  }
+
+/* ===== BOTÓN FINALIZAR ===== */
 .finalizar-btn {
   width: 100%;
-  padding: 20px 0;
-  margin-top: 30px;
+  padding: 18px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.quantity-input {
-  width: 80px;
+  .finalizar-btn mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .finalizar-btn:disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+  }
+
+/* ===== UTILITY CLASSES ===== */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
 }
 
-/* Este código quita el espacio extra que añade mat-form-field para los mensajes de error,
-   haciendo que se vea más compacto en la tabla. */
-::ng-deep .quantity-input .mat-mdc-form-field-subscript-wrapper {
-  display: none;
+.col-sm-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .pos-container {
+    grid-template-columns: 1fr;
+  }
+
+  .cliente-section {
+    position: sticky;
+    bottom: 0;
+    background-color: #f4f6f9;
+    padding: 15px;
+    margin: 0 -20px -20px -20px;
+    border-top: 2px solid #dee2e6;
+  }
+
+    .cliente-section .card {
+      margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+  .content-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .float-sm-right {
+    float: none;
+    margin-top: 10px;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .total-amount {
+    font-size: 1.5rem;
+  }
+
+  .quantity-control {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .quantity-input {
+    width: 60px;
+  }
+
+  .autocomplete-option {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .product-info {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .content {
+    padding: 0 10px 10px 10px;
+  }
+
+  .content-header {
+    padding: 10px 15px;
+  }
+
+  .card-header {
+    padding: 10px 15px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .total-section {
+    padding: 15px;
+  }
+
+  .total-label {
+    font-size: 1rem;
+  }
+
+  .total-amount {
+    font-size: 1.3rem;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item-row {
+  animation: slideIn 0.3s ease;
+}
+
+.card {
+  animation: slideIn 0.3s ease;
 }

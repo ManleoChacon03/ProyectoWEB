@@ -11,5 +11,7 @@
         public List<int> CategoriaIds { get; set; } = new List<int>();
         public decimal? PrecioMayorista { get; set; }
         public int? CantidadMayorista { get; set; }
+        public decimal? Costo { get; set; } // <-- AÑADE ESTA LÍNEA
+
     }
 }

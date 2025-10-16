@@ -9,7 +9,6 @@ using System.Security.Claims;
 
 namespace LibreriaChacon.Server.Controllers
 {
- 
     [Route("api/[controller]")]
     [ApiController]
     [Authorize] // Todo este controlador requiere que el usuario esté autenticado
@@ -22,14 +21,15 @@ namespace LibreriaChacon.Server.Controllers
             _context = context;
         }
 
-        // --- AÑADIDO: Endpoint para que el ADMIN/OPERADOR vea TODOS los pedidos ---
+        // --- MÉTODO MODIFICADO ---
         // GET: api/pedidos
         [HttpGet]
         [Authorize(Roles = "Administrador,Operador")]
         public async Task<ActionResult<IEnumerable<Pedido>>> GetAllPedidos()
         {
             return await _context.Pedidos
-                .Include(p => p.Usuario) // Incluimos los datos del perfil que hizo el pedido
+                .Include(p => p.Usuario)
+                .Include(p => p.Devoluciones) // <-- ADAPTACIÓN: Se añade esta línea
                 .OrderByDescending(p => p.FechaCreacion)
                 .ToListAsync();
         }
@@ -46,8 +46,8 @@ namespace LibreriaChacon.Server.Controllers
                 .Where(p => p.UsuarioId == usuarioId)
                 .Include(p => p.DetallePedido)
                     .ThenInclude(d => d.Producto)
-                .Include(p => p.Devoluciones) // <-- AÑADE ESTA LÍNEA para incluir las devoluciones
-                            .ThenInclude(d => d.DetalleDevolucion) // <-- AÑADE ESTO para incluir los items devueltos
+                .Include(p => p.Devoluciones)
+                    .ThenInclude(d => d.DetalleDevolucion)
                 .OrderByDescending(p => p.FechaCreacion)
                 .ToListAsync();
         }
@@ -89,7 +89,6 @@ namespace LibreriaChacon.Server.Controllers
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // Obtenemos el ID del usuario directamente del token JWT
                 var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 decimal montoTotal = 0;
                 var detallesPedido = new List<DetallePedido>();
@@ -106,10 +105,8 @@ namespace LibreriaChacon.Server.Controllers
                         return BadRequest($"Stock insuficiente para '{producto.Nombre}'.");
                     }
 
-                    // Disminuimos el stock
                     producto.CantidadStock -= itemDto.Cantidad;
 
-                    // Aplicamos lógica de precio mayorista si corresponde
                     decimal precioCompra = producto.Precio;
                     if (producto.CantidadMayorista.HasValue && itemDto.Cantidad >= producto.CantidadMayorista.Value && producto.PrecioMayorista.HasValue)
                     {
@@ -129,7 +126,7 @@ namespace LibreriaChacon.Server.Controllers
                 {
                     UsuarioId = usuarioId,
                     MontoTotal = montoTotal,
-                    Estado = "Pendiente", // Un nuevo pedido online empieza como 'Pendiente'
+                    Estado = "Pendiente",
                     FechaCreacion = DateTime.UtcNow,
                     TipoVenta = "EnLinea",
                     DetallePedido = detallesPedido

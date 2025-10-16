@@ -1,41 +1,345 @@
-/* Contenedor principal que envuelve todo. 
-   Le damos un margen, padding y una sombra para que "flote" sobre el fondo. */
-.container {
-  margin: 20px;
-  padding: 20px;
+/* ===== CONTENT HEADER ===== */
+.content-header {
+  padding: 15px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+  .content-header h1 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+    color: #495057;
+  }
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.breadcrumb-item {
+  font-size: 0.875rem;
+}
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: "/";
+    padding: 0 8px;
+    color: #6c757d;
+  }
+
+  .breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .breadcrumb-item.active {
+    color: #6c757d;
+  }
+
+.float-sm-right {
+  float: right;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  padding: 0 20px 20px 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
 }
 
-/* Estilo para la barra de búsqueda.
-   Hacemos que no ocupe todo el ancho para que se vea más limpia. */
-.mat-form-field {
-  width: 40%;
-  min-width: 250px;
-  font-size: 14px;
+.card-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Asegura que la tabla ocupe todo el ancho disponible de su contenedor. */
-table {
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: #495057;
+}
+
+.header-icon {
+  margin-right: 10px;
+  color: #007bff;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* ===== SEARCH WRAPPER ===== */
+.search-wrapper {
+  margin-bottom: 20px;
+}
+
+.search-field {
   width: 100%;
+  max-width: 500px;
 }
 
-/* Estilos para las cabeceras de la tabla.
-   Hacemos el texto un poco más grueso para que destaque. */
-.mat-header-cell {
+/* ===== TABLA ===== */
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+.perfiles-table {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+  .perfiles-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    padding: 15px 16px;
+  }
+
+  .perfiles-table td {
+    padding: 15px 16px;
+    vertical-align: middle;
+  }
+
+.table-row {
+  transition: background-color 0.2s ease;
+}
+
+  .table-row:hover {
+    background-color: #f8f9fa;
+  }
+
+/* Iconos en headers */
+.column-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
+  color: #6c757d;
+}
+
+/* ===== USER INFO ===== */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #007bff;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.user-email {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+/* ===== ROLE BADGES ===== */
+.role-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
   font-weight: 600;
-  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Estilo específico para la columna de "Acciones".
-   Le damos un ancho fijo y alineamos el contenido al centro
-   para que el botón de eliminar no se mueva al cambiar el tamaño de la ventana. */
-.mat-column-acciones {
-  width: 100px;
-  text-align: center;
+.role-admin {
+  background-color: #dc3545;
+  color: #ffffff;
 }
 
-/* Le da un poco de espacio superior al paginador para separarlo de la tabla. */
-.mat-paginator {
-  margin-top: 16px;
+.role-operador {
+  background-color: #17a2b8;
+  color: #ffffff;
 }
+
+.role-cliente {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+/* ===== NO DATA MESSAGE ===== */
+.no-data-row {
+  height: 200px;
+}
+
+.no-data-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  padding: 40px;
+}
+
+  .no-data-message mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+  }
+
+  .no-data-message p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+/* ===== PAGINADOR ===== */
+::ng-deep .mat-paginator {
+  background-color: transparent !important;
+  border-top: 1px solid #dee2e6;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+::ng-deep .mat-paginator-container {
+  justify-content: center !important;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-sm-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .content-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .float-sm-right {
+    float: none;
+    margin-top: 10px;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .search-field {
+    max-width: 100%;
+  }
+
+  .perfiles-table th,
+  .perfiles-table td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  .user-avatar {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .column-icon {
+    display: none;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .content {
+    padding: 0 10px 10px 10px;
+  }
+
+  .content-header {
+    padding: 10px 15px;
+  }
+
+  .card-header {
+    padding: 10px 15px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .header-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .role-badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ===== BOTONES ===== */
+button[mat-icon-button] {
+  transition: transform 0.2s ease;
+}
+
+  button[mat-icon-button]:hover {
+    transform: scale(1.1);
+  }

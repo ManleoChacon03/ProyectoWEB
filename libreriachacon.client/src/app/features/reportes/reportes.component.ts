@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver'; // Se importa 'saveAs'
 
 // --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // <-- AGREGAR
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -34,7 +35,7 @@ export interface ReporteVenta {
   selector: 'app-reportes',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule, MatTableModule, MatFormFieldModule,
+    CommonModule, RouterModule, ReactiveFormsModule, MatTableModule, MatFormFieldModule,
     MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatButtonModule, MatIconModule
   ],
   templateUrl: './reportes.component.html',

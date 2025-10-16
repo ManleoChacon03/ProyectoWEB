@@ -1,73 +1,205 @@
-<div class="pos-container">
-  <div class="venta-section">
-    <h2>Items de la Venta</h2>
-    <mat-form-field appearance="outline" class="search-bar">
-      <mat-label>Buscar producto por nombre...</mat-label>
-      <input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProduct" (optionSelected)="addProduct($event.option.value)">
-        <mat-option *ngFor="let product of filteredProducts$ | async" [value]="product">
-          {{ product.nombre }} ({{ product.precio | currency:'Q' }}) - Stock: {{ product.cantidadStock }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <table mat-table [dataSource]="ventaItems" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef> Producto </th>
-        <td mat-cell *matCellDef="let item"> {{item.nombre}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="cantidad">
-        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-        <td mat-cell *matCellDef="let item">
-          <mat-form-field class="quantity-input" appearance="outline">
-            <input matInput type="number" [(ngModel)]="item.cantidad" (change)="actualizarVenta()" min="1">
-          </mat-form-field>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="precio">
-        <th mat-header-cell *matHeaderCellDef> Precio Unit. </th>
-        <td mat-cell *matCellDef="let item"> {{item.precio | currency:'Q'}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="subtotal">
-        <th mat-header-cell *matHeaderCellDef> Subtotal </th>
-        <td mat-cell *matCellDef="let item"> {{ calcularSubtotal(item) | currency:'Q' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let item">
-          <button mat-icon-button color="warn" (click)="removeItem(item.productoId)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <h3 class="total">Total: {{ totalVenta | currency:'Q' }}</h3>
-  </div>
-
-  <div class="cliente-section">
-    <h2>Datos del Cliente</h2>
-    <form [formGroup]="clienteForm">
-      <mat-form-field appearance="outline">
-        <mat-label>NIT</mat-label>
-        <input matInput formControlName="clienteNit">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="clienteNombre">
-      </mat-form-field>
-    </form>
-
-    <button mat-raised-button color="primary" class="finalizar-btn" (click)="finalizarVenta()">
-      Finalizar Venta
-    </button>
+<!-- Content Header -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">
+          Punto de Venta
+        </h1>
+      </div>
+      <div class="col-sm-6">
+       
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <div class="pos-container">
+
+      <!-- Sección de Items -->
+      <div class="venta-section">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              Items de la Venta
+            </h3>
+            <div class="card-badge">
+              <span class="item-count">{{ventaItems.length}} items</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Búsqueda de Productos -->
+            <div class="search-wrapper">
+              <mat-form-field appearance="outline" class="search-bar">
+                <mat-label>Buscar producto</mat-label>
+                <input type="text"
+                       matInput
+                       [formControl]="searchControl"
+                       [matAutocomplete]="auto"
+                       placeholder="Escriba el nombre del producto...">
+                <mat-icon matPrefix>search</mat-icon>
+                <mat-autocomplete #auto="matAutocomplete"
+                                  [displayWith]="displayProduct"
+                                  (optionSelected)="addProduct($event.option.value)">
+                  <mat-option *ngFor="let product of filteredProducts$ | async" [value]="product">
+                    <div class="autocomplete-option">
+                      <span class="product-name">{{ product.nombre }}</span>
+                      <span class="product-info">
+                        <span class="price">{{ product.precio | currency:'GTQ':'Q' }}</span>
+                        <span class="stock" [class.low-stock]="product.cantidadStock < 10">
+                          Stock: {{ product.cantidadStock }}
+                        </span>
+                      </span>
+                    </div>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <!-- Tabla de Items -->
+            <div class="table-wrapper" *ngIf="ventaItems.length > 0">
+              <table mat-table [dataSource]="ventaItems" class="items-table">
+
+                <!-- Columna Producto -->
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef>Producto</th>
+                  <td mat-cell *matCellDef="let item" class="product-cell">
+                    {{item.nombre}}
+                  </td>
+                </ng-container>
+
+                <!-- Columna Cantidad -->
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+                  <td mat-cell *matCellDef="let item">
+                    <div class="quantity-control">
+                      <mat-form-field class="quantity-input" appearance="outline">
+                        <input matInput
+                               type="number"
+                               [(ngModel)]="item.cantidad"
+                               (change)="actualizarVenta()"
+                               min="1">
+                      </mat-form-field>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Columna Precio -->
+                <ng-container matColumnDef="precio">
+                  <th mat-header-cell *matHeaderCellDef>Precio Unit.</th>
+                  <td mat-cell *matCellDef="let item" class="price-cell">
+                    {{ item.precio | currency:'GTQ':'Q' }}
+                  </td>
+                </ng-container>
+
+                <!-- Columna Subtotal -->
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+                  <td mat-cell *matCellDef="let item" class="subtotal-cell">
+                    {{ calcularSubtotal(item) | currency:'GTQ':'Q' }}
+                  </td>
+                </ng-container>
+
+                <!-- Columna Acciones -->
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let item">
+                    <button mat-icon-button
+                            color="warn"
+                            (click)="removeItem(item.productoId)"
+                            matTooltip="Eliminar producto">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="item-row"></tr>
+              </table>
+            </div>
+
+            <!-- Mensaje cuando no hay items -->
+            <div class="empty-cart" *ngIf="ventaItems.length === 0">
+              <p>No hay productos agregados</p>
+              <span>Busque y agregue productos para iniciar la venta</span>
+            </div>
+
+            <!-- Total -->
+            <div class="total-section" *ngIf="ventaItems.length > 0">
+              <div class="total-row">
+                <span class="total-label">TOTAL A PAGAR</span>
+                <span class="total-amount">{{ totalVenta | currency:'GTQ':'Q' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Cliente y Finalizar -->
+      <div class="cliente-section">
+
+        <!-- Datos del Cliente -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              Datos del Cliente
+            </h3>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="clienteForm" class="cliente-form">
+              <mat-form-field appearance="outline">
+                <mat-label>NIT</mat-label>
+                <input matInput formControlName="clienteNit" placeholder="Ej: C/F">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre del Cliente</mat-label>
+                <input matInput formControlName="clienteNombre" placeholder="Nombre completo">
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="card summary-card">
+          <div class="card-header">
+            <h3 class="card-title">
+              Resumen
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="summary-row">
+              <span>Items:</span>
+              <strong>{{ventaItems.length}}</strong>
+            </div>
+            <div class="summary-row">
+              <span>Unidades:</span>
+              <strong>{{getTotalUnidades()}}</strong>
+            </div>
+            <div class="summary-row total-row-summary">
+              <span>Total:</span>
+              <strong>{{ totalVenta | currency:'GTQ':'Q' }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón Finalizar -->
+        <button mat-raised-button
+                color="primary"
+                class="finalizar-btn"
+                (click)="finalizarVenta()"
+                [disabled]="ventaItems.length === 0">
+          Finalizar Venta
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
