@@ -1,35 +1,35 @@
-// En features/pedidos/pedidos.component.ts
 
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'; // <-- Se añade AfterViewInit y ViewChild
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'; 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Pedido } from '../../core/models/pedido.model';
 import { PedidoService } from '../../core/services/pedido.service';
 
 // --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon'; 
 import { FormsModule } from '@angular/forms';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; // <-- Se importa MatPaginator y su módulo
-import { MatSort, MatSortModule } from '@angular/material/sort'; // <-- Se importa MatSort y su módulo
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; 
+import { MatSort, MatSortModule } from '@angular/material/sort'; 
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
   imports: [
-    CommonModule, MatTableModule, MatFormFieldModule, MatSelectModule, FormsModule,
-    MatPaginatorModule, MatSortModule // <-- Se añaden los módulos para que funcionen en el HTML
+    CommonModule, RouterModule, MatTableModule, MatFormFieldModule, MatSelectModule, MatIconModule, FormsModule,
+    MatPaginatorModule, MatSortModule 
   ],
   templateUrl: './pedidos.component.html',
   styleUrls: ['./pedidos.component.css']
 })
-export class PedidosComponent implements OnInit, AfterViewInit { // <-- Se implementa AfterViewInit
+export class PedidosComponent implements OnInit, AfterViewInit { 
 
   displayedColumns: string[] = ['id', 'fechaCreacion', 'clienteNombre', 'montoTotal', 'montoDevuelto', 'ventaNeta', 'estado'];
   dataSource = new MatTableDataSource<Pedido>();
   estadosPosibles = ['Pendiente', 'Procesando', 'Enviado', 'Completado', 'Cancelado'];
 
-  // --- CORRECCIÓN: Se usan los decoradores @ViewChild correctamente ---
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -39,7 +39,6 @@ export class PedidosComponent implements OnInit, AfterViewInit { // <-- Se imple
     this.cargarPedidos();
   }
 
-  // --- AÑADIDO: Se conecta el paginador y el sort a la tabla ---
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -54,7 +53,7 @@ export class PedidosComponent implements OnInit, AfterViewInit { // <-- Se imple
   cambiarEstado(pedido: Pedido, nuevoEstado: string): void {
     this.pedidoService.updatePedidoStatus(pedido.id, nuevoEstado).subscribe(() => {
       alert(`El estado del pedido #${pedido.id} ha sido actualizado a "${nuevoEstado}".`);
-      pedido.estado = nuevoEstado; // Actualizamos localmente para no recargar todo
+      pedido.estado = nuevoEstado; 
     });
   }
 
@@ -70,4 +69,3 @@ export class PedidosComponent implements OnInit, AfterViewInit { // <-- Se imple
   }
 }
 
-// --- Se eliminaron las funciones incorrectas que tenías al final ---

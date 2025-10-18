@@ -1,10 +1,9 @@
-// --- AÑADIDO: IMPORTACIONES PARA EL INTERCEPTOR ---
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 // --------------------------------------------------
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import localeGt from '@angular/common/locales/es-GT'; // <-- Importa los datos de Guatemala
+import localeGt from '@angular/common/locales/es-GT'; // <-- Importar los datos de Guatemala
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -44,15 +43,14 @@ import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.componen
 import { PedidosComponent } from './features/pedidos/pedidos.component';
 import { DevolucionFormComponent } from './features/devolucion-form/devolucion-form.component';
 import { GestionDevolucionesComponent } from './features/gestion-devoluciones/gestion-devoluciones.component';
+import { InventarioComponent } from './features/inventario/inventario.component';
 
 registerLocaleData(localeGt, 'es-GT');
 @NgModule({
   declarations: [
     AppComponent,
     CategoriaComponent,
-    
-    
-    // Este componente parece no ser standalone, por eso se queda aquí.
+  
   ],
   imports: [
     // Módulos
@@ -71,7 +69,7 @@ registerLocaleData(localeGt, 'es-GT');
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatSidenavModule, // <-- Faltaban estos en tu lista original, los añadí por si acaso
+    MatSidenavModule, 
     MatListModule,
     MatToolbarModule,
 
@@ -90,15 +88,14 @@ registerLocaleData(localeGt, 'es-GT');
     PedidosComponent,
     DevolucionFormComponent,
     GestionDevolucionesComponent,
+    InventarioComponent,
   ],
-  // --- AÑADIDO: REGISTRO DEL INTERCEPTOR ---
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: LOCALE_ID, useValue: 'es-GT' }, // <-- AÑADE ESTA LÍNEA
+    { provide: LOCALE_ID, useValue: 'es-GT' },
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
 
   ],
-  // ------------------------------------------
   bootstrap: [AppComponent]
 })
 export class AppModule { }

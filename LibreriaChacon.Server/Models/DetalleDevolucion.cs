@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibreriaChacon.Server.Models
 {
-    // En Models/DetalleDevolucion.cs
 
     [Table("detalle_devolucion")]
     public class DetalleDevolucion
@@ -19,7 +18,6 @@ namespace LibreriaChacon.Server.Models
 
         public int Cantidad { get; set; }
 
-        // Propiedades de navegación
         public Devolucion Devolucion { get; set; } = null!;
         public Producto Producto { get; set; } = null!;
     }

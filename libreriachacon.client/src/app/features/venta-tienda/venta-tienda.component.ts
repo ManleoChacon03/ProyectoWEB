@@ -1,4 +1,3 @@
-// SOLO agregar estos imports a tu código existente
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -7,23 +6,22 @@ import { startWith, map, debounceTime, switchMap } from 'rxjs/operators';
 import { Producto } from '../../core/models/producto.model';
 import { VentaItemDto } from '../../core/models/venta.dto.model';
 
-// --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // <-- AGREGAR
+import { RouterModule } from '@angular/router'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR
+import { MatTooltipModule } from '@angular/material/tooltip'; 
 
 @Component({
   selector: 'app-venta-tienda',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule, // <-- AGREGAR
+    RouterModule, 
     ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
@@ -32,13 +30,12 @@ import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule // <-- AGREGAR
+    MatTooltipModule 
   ],
   templateUrl: './venta-tienda.component.html',
   styleUrls: ['./venta-tienda.component.css']
 })
 export class VentaTiendaComponent implements OnInit {
-  // TODO TU CÓDIGO SE MANTIENE IGUAL
 
   clienteForm: FormGroup;
   searchControl = new FormControl();

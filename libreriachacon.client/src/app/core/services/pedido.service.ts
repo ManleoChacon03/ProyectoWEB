@@ -1,9 +1,8 @@
-// En src/app/core/services/pedido.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartItem } from '../models/cart-item.model';
-import { Pedido } from '../models/pedido.model'; // <-- Importa el nuevo modelo
+import { Pedido } from '../models/pedido.model'; 
 
 
 @Injectable({
@@ -24,7 +23,6 @@ export class PedidoService {
     };
     return this.http.post(this.apiUrl, pedidoDto);
   }
-  // --- AÑADE ESTE MÉTODO ---
   getMisPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.apiUrl}/mis-pedidos`);
   }
@@ -35,7 +33,10 @@ export class PedidoService {
 
   // Actualiza el estado de un pedido
   updatePedidoStatus(pedidoId: number, nuevoEstado: string): Observable<any> {
-    // El backend espera un objeto con la propiedad 'estado'
     return this.http.put(`${this.apiUrl}/${pedidoId}/estado`, { estado: nuevoEstado });
+  }
+
+  getFacturaPdf(pedidoId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${pedidoId}/factura`, { responseType: 'blob' });
   }
 }

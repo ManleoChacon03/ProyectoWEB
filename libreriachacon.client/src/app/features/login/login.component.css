@@ -1,22 +1,331 @@
-.login-container {
+/* ===== WRAPPER GENERAL ===== */
+.login-wrapper {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(135deg, #B2FFFF 0%, #B2FFFF 0%);
+  overflow: hidden;
 }
 
-mat-card {
+/* ===== FONDO CON MARCA DE AGUA ===== */
+.login-background {
+  position: absolute;
+  top: auto;
+  left: auto;
   width: 100%;
-  max-width: 400px;
+  height: 100%;
+  /* IMAGEN DE LA FACHADA COMO MARCA DE AGUA */
+  background-image: url('/assets/images/fachada-libreria.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.12;
+  z-index: 0;
 }
 
-mat-form-field {
+/* ===== CONTAINER ===== */
+.login-container {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  margin-bottom: 1rem;
+  max-width: 450px;
+  padding: 20px;
 }
 
-.error-message {
-  color: red;
-  margin-bottom: 1rem;
+/* ===== CARD ===== */
+.login-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 40px 35px;
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== HEADER ===== */
+.login-header {
   text-align: center;
+  margin-bottom: 35px;
+}
+
+.logo-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  /* LOGO CIRCULAR CHACÓN */
+  background-image: url('/assets/images/logo-chacon.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  border: 3px solid #ffffff;
+}
+
+  .logo-container mat-icon {
+    display: none; /* Ocultamos el icono porque usaremos la imagen */
+  }
+
+.login-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* ===== FORM ===== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Estilos para Material Form Fields */
+::ng-deep .login-form .mat-mdc-form-field {
+  margin-bottom: 0 !important;
+}
+
+::ng-deep .login-form .mat-mdc-text-field-wrapper {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .login-form .mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+/* Iconos de prefijo */
+::ng-deep .login-form .mat-icon[matPrefix] {
+  margin-right: 12px;
+  color: #667eea;
+}
+
+/* ===== ERROR ALERT ===== */
+.error-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  color: #721c24;
+  font-size: 0.9rem;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.error-alert mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== BUTTONS ===== */
+.login-button {
+  width: 100%;
+  padding: 14px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ADD8E6 0%, #ADD8E6 0%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+  .login-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
+
+  .login-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #6c757d;
+  }
+
+  .login-button mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+/* ===== FOOTER ===== */
+.login-footer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 10px 0;
+}
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .divider span {
+    padding: 0 15px;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+/* Register Button */
+.register-button {
+  width: 100%;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  border: 2px solid #667eea;
+  color: #667eea;
+  transition: all 0.3s ease;
+}
+
+  .register-button:hover {
+    background-color: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .register-button mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+/* Guest Link */
+.guest-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+  .guest-link:hover {
+    color: #667eea;
+    background-color: rgba(102, 126, 234, 0.05);
+  }
+
+  .guest-link mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 30px 25px;
+  }
+
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .login-button,
+  .register-button {
+    padding: 12px 0;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-card {
+    padding: 25px 20px;
+  }
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.logo-container {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ===== FOCUS STATES ===== */
+::ng-deep .login-form .mat-mdc-form-field.mat-focused .mat-mdc-notch-piece {
+  border-color: #667eea !important;
+}
+
+::ng-deep .login-form .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #667eea !important;
 }

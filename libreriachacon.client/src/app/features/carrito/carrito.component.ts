@@ -1,11 +1,10 @@
-// En features/carrito/carrito.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http'; // <-- 1. AÑADE ESTE IMPORT
+import { HttpErrorResponse } from '@angular/common/http'; 
 import { Subscription } from 'rxjs';
 import { CartItem } from '../../core/models/cart-item.model';
 import { CarritoService } from '../../core/services/carrito.service';
-import { PedidoService } from '../../core/services/pedido.service'; // <-- Importa el nuevo servicio
-import { Router } from '@angular/router'; // <-- Importa el Router
+import { PedidoService } from '../../core/services/pedido.service'; 
+import { Router } from '@angular/router'; 
 
 // --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
@@ -14,12 +13,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip'; 
+
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
   imports: [
-    CommonModule, RouterModule, MatTableModule, MatButtonModule, MatIconModule, MatCardModule
+    CommonModule, RouterModule, MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule
   ],
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css']
@@ -33,8 +34,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
 
   constructor(
     private carritoService: CarritoService,
-    private pedidoService: PedidoService, // <-- AÑADIDO
-    private router: Router               // <-- AÑADIDO
+    private pedidoService: PedidoService, 
+    private router: Router               
   ) { }
 
   ngOnInit(): void {
@@ -62,6 +63,10 @@ export class CarritoComponent implements OnInit, OnDestroy {
     this.totalCarrito = this.cartItems.reduce((total, item) => total + this.calcularSubtotal(item), 0);
   }
 
+  getTotalUnidades(): number {
+    return this.cartItems.reduce((sum, item) => sum + item.cantidad, 0);
+  }
+
   actualizarCantidad(item: CartItem, event: any): void {
     const nuevaCantidad = (event.target as HTMLInputElement).valueAsNumber;
     this.carritoService.updateQuantity(item.producto.id, nuevaCantidad);
@@ -83,10 +88,8 @@ export class CarritoComponent implements OnInit, OnDestroy {
         this.carritoService.clearCart();
         this.router.navigate(['/productos']);
       },
-      // 2. AÑADE EL TIPO AQUÍ
       error: (err: HttpErrorResponse) => {
         console.error(err);
-        // err.error suele contener el mensaje de texto que envía el backend (ej. "Stock insuficiente")
         alert(`Error al procesar el pedido: ${err.error}`);
       }
     });

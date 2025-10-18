@@ -1,6 +1,5 @@
 ﻿namespace LibreriaChacon.Server.DTOs
 {
-    // En DTOs/ProductoDto.cs
     public class ProductoDto
     {
         public string Nombre { get; set; } = null!;
@@ -11,7 +10,7 @@
         public List<int> CategoriaIds { get; set; } = new List<int>();
         public decimal? PrecioMayorista { get; set; }
         public int? CantidadMayorista { get; set; }
-        public decimal? Costo { get; set; } // <-- AÑADE ESTA LÍNEA
+        public decimal? Costo { get; set
 
     }
 }

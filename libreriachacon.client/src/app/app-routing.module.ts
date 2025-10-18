@@ -1,4 +1,3 @@
-// En src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PerfilComponent } from './features/perfil/perfil.component';
@@ -8,50 +7,48 @@ import { LoginComponent } from './features/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { LayoutComponent } from './core/components/layout/layout.component';
-import { VentaTiendaComponent } from './features/venta-tienda/venta-tienda.component'; // <-- 1. Importa el componente
-import { ReportesComponent } from './features/reportes/reportes.component'; // <-- 1. Importa
-import { CarritoComponent } from './features/carrito/carrito.component'; // <-- 1. Importa
-import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.component'; // <-- 1. Importa
-import { PedidosComponent } from './features/pedidos/pedidos.component'; // <-- 1. Importa
-import { GestionDevolucionesComponent } from './features/gestion-devoluciones/gestion-devoluciones.component'; // <-- Importa
+import { VentaTiendaComponent } from './features/venta-tienda/venta-tienda.component'; 
+import { ReportesComponent } from './features/reportes/reportes.component'; 
+import { CarritoComponent } from './features/carrito/carrito.component'; 
+import { MisPedidosComponent } from './features/mis-pedidos/mis-pedidos.component'; 
+import { PedidosComponent } from './features/pedidos/pedidos.component'; 
+import { GestionDevolucionesComponent } from './features/gestion-devoluciones/gestion-devoluciones.component'; 
+import { InventarioComponent } from './features/inventario/inventario.component';
 
 
 
 const routes: Routes = [
-  // --- RUTAS PÚBLICAS (No usan el layout con sidebar) ---
+  // RUTAS PÚBLICAS 
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'catalogo-publico', component: ProductoListComponent },
 
-  // --- RUTAS PRIVADAS (Usan el layout con sidebar) ---
+  //  RUTAS PRIVADAS
   {
     path: '',
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      // CAMBIO 1: La ruta principal ahora redirige a 'dashboard'
+      // La ruta principal  redirige a 'dashboard'
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
-      // CAMBIO 2: Se activa la ruta para el DashboardComponent
       { path: 'dashboard', component: DashboardComponent },
 
       { path: 'perfiles', component: PerfilComponent },
       { path: 'productos', component: ProductoListComponent },
-      { path: 'venta-tienda', component: VentaTiendaComponent }, // <-- 2. Añade la nueva ruta
-      { path: 'reportes', component: ReportesComponent }, // <-- 2. Añade la ruta
-      { path: 'carrito', component: CarritoComponent }, // <-- 2. Añade la ruta
-      { path: 'pedidos', component: PedidosComponent }, // <-- 2. Añade la nueva ruta
-      { path: 'mis-pedidos', component: MisPedidosComponent }, // <-- 2. Añade la ruta
-      { path: 'gestion-devoluciones', component: GestionDevolucionesComponent }, // <-- Añade la ruta
+      { path: 'venta-tienda', component: VentaTiendaComponent },
+      { path: 'reportes', component: ReportesComponent }, 
+      { path: 'carrito', component: CarritoComponent }, 
+      { path: 'pedidos', component: PedidosComponent }, 
+      { path: 'mis-pedidos', component: MisPedidosComponent }, 
+      { path: 'gestion-devoluciones', component: GestionDevolucionesComponent }, 
+      { path: 'inventario', component: InventarioComponent },
 
 
-
-
-      // Aquí añadiremos las demás rutas privadas: /pedidos, /reportes, etc.
     ]
   },
 
-  // --- RUTA COMODÍN ---
+  // RUTA AL CATOLOGO PUBLICO
   { path: '**', redirectTo: '/catalogo-publico' }
 ];
 

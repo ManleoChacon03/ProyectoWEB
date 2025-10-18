@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router'; // <-- 1. IMPORTA RouterModule aquí
+import { Router, RouterModule } from '@angular/router'; 
 import { AuthService } from '../../core/services/auth.service';
 import { PerfilService } from '../../core/services/perfil.service';
 
 
-// Módulos necesarios
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule, // <-- 2. AÑADE RouterModule aquí
+    RouterModule, 
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,7 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  // ... el resto de tu código se mantiene igual
+
   loginForm: FormGroup;
   hidePassword = true;
   errorMessage: string | null = null;
@@ -58,7 +57,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        // --- AQUÍ ESTÁ LA NUEVA LÓGICA DE REDIRECCIÓN POR ROL ---
+       //Ruteo por rol
         switch (response.rol) {
           case 'Administrador':
           case 'Operador':
@@ -68,7 +67,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/productos']);
             break;
           default:
-            // Si por alguna razón no hay rol, lo mandamos a una página por defecto
+         
             this.router.navigate(['/productos']);
             break;
         }

@@ -1,4 +1,3 @@
-// En features/producto-form/producto-form.component.ts
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -36,15 +35,12 @@ export class ProductoFormComponent implements OnInit {
     public dialogRef: MatDialogRef<ProductoFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Producto | null
   ) {
-    // --- ORDEN CORREGIDO ---
-
-    // 1. Primero, creamos SIEMPRE la estructura del formulario (vacío).
-    //    Con esto, 'productoForm' ya tiene un valor y el primer error desaparece.
+    
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: [''],
       precio: [0, [Validators.required, Validators.min(0.01)]],
-      costo: [0, [Validators.required, Validators.min(0)]], // <-- AÑADE ESTA LÍNEA
+      costo: [0, [Validators.required, Validators.min(0)]], 
       cantidadStock: [0, [Validators.required, Validators.min(0)]],
       imagenUrl: [''],
       categoriaIds: [[], Validators.required],
@@ -52,12 +48,10 @@ export class ProductoFormComponent implements OnInit {
       cantidadMayorista: [null]
     });
 
-    // 2. Luego, determinamos si es modo edición.
-    //    Con esto, 'esModoEdicion' ya tiene un valor y el segundo error desaparece.
+   
     this.esModoEdicion = !!this.data;
 
-    // 3. FINALMENTE, si es modo edición, llenamos el formulario que ya existe.
-    //    Esto arregla el error de usar 'patchValue' antes de tiempo.
+    
     if (this.esModoEdicion && this.data) {
       this.productoForm.patchValue(this.data);
       const categoriaIds = this.data.categorias.map(c => c.id);

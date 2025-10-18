@@ -1,7 +1,6 @@
-// En src/app/core/guards/auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service'; // Importamos nuestro servicio
+import { AuthService } from '../services/auth.service'; 
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +8,19 @@ import { AuthService } from '../services/auth.service'; // Importamos nuestro se
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private authService: AuthService, // Inyectamos el servicio de autenticación
-    private router: Router // Inyectamos el Router para poder redirigir
+    private authService: AuthService, 
+    private router: Router 
   ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-    // Preguntamos al servicio si el usuario ha iniciado sesión
     if (this.authService.isLoggedIn()) {
-      return true; // Si ha iniciado sesión, permite el acceso a la ruta
+      return true; 
     } else {
-      // Si no ha iniciado sesión, redirige a la página de login
       this.router.navigate(['/login']);
-      return false; // Y no permite el acceso a la ruta
+      return false; 
     }
   }
 }

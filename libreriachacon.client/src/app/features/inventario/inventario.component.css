@@ -1,0 +1,20 @@
+.container {
+  padding: 20px;
+}
+
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.filters-container {
+  display: flex;
+  gap: 20px;
+}
+
+table {
+  width: 100%;
+}

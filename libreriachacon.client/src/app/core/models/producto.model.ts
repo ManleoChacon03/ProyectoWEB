@@ -1,4 +1,3 @@
-// En src/app/core/models/producto.model.ts
 import { Categoria } from "./categoria.model";
 
 export interface Producto {
@@ -10,9 +9,7 @@ export interface Producto {
   fechaCreacion: Date;
   imagenUrl: string | null;
   categorias: Categoria[];
-  estaActivo: boolean; // Esta propiedad también faltaba aquí
-
-  // --- AÑADE ESTAS DOS LÍNEAS ---
+  estaActivo: boolean; 
   precioMayorista: number | null;
   cantidadMayorista: number | null;
 }

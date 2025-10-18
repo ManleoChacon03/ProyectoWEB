@@ -21,7 +21,6 @@ namespace LibreriaChacon.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
         {
-            // Correcto: ya filtra por productos activos
             return await _context.Productos.Where(p => p.EstaActivo).Include(p => p.Categorias).ToListAsync();
         }
 
@@ -29,7 +28,6 @@ namespace LibreriaChacon.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Producto>> GetProducto(long id)
         {
-            // Correcto: ya filtra por productos activos
             var producto = await _context.Productos
                 .Where(p => p.EstaActivo)
                 .Include(p => p.Categorias)
@@ -60,10 +58,10 @@ namespace LibreriaChacon.Server.Controllers
                 FechaCreacion = DateTime.UtcNow,
                 ImagenUrl = productoDto.ImagenUrl,
                 Categorias = categoriasDelProducto,
-                EstaActivo = true, // <-- AÑADIDO: Aseguramos que el producto nuevo sea activo por defecto
+                EstaActivo = true, 
                 PrecioMayorista = productoDto.PrecioMayorista,
                 CantidadMayorista = productoDto.CantidadMayorista,
-                Costo = productoDto.Costo // <-- AÑADE ESTA LÍNEA
+                Costo = productoDto.Costo 
 
             };
 
@@ -77,7 +75,6 @@ namespace LibreriaChacon.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducto(long id, ProductoDto productoDto)
         {
-            // Este método no necesita cambios, está bien como está.
             var productoAActualizar = await _context.Productos
                 .Include(p => p.Categorias)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -94,7 +91,7 @@ namespace LibreriaChacon.Server.Controllers
             productoAActualizar.ImagenUrl = productoDto.ImagenUrl;
             productoAActualizar.PrecioMayorista = productoDto.PrecioMayorista;
             productoAActualizar.CantidadMayorista = productoDto.CantidadMayorista;
-            productoAActualizar.Costo = productoDto.Costo; // <-- AÑADE ESTA LÍNEA
+            productoAActualizar.Costo = productoDto.Costo; 
 
 
             var nuevasCategorias = await _context.Categorias
@@ -109,11 +106,9 @@ namespace LibreriaChacon.Server.Controllers
         }
 
         // DELETE: api/productos/5
-        // --- MÉTODO MODIFICADO ---
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProducto(long id)
         {
-            // AÑADIDO: Verificación de pedidos existentes
             var productoEnPedidos = await _context.DetallePedido.AnyAsync(d => d.ProductoId == id);
             if (productoEnPedidos)
             {
@@ -126,7 +121,6 @@ namespace LibreriaChacon.Server.Controllers
                 return NotFound();
             }
 
-            // Correcto: implementa el borrado lógico
             producto.EstaActivo = false;
 
             await _context.SaveChangesAsync();
@@ -134,19 +128,16 @@ namespace LibreriaChacon.Server.Controllers
             return NoContent();
         }
 
-        // --- AÑADIDO: Endpoint para obtener los productos inactivos ---
         // GET: api/productos/inactivos
         [HttpGet("inactivos")]
         public async Task<ActionResult<IEnumerable<Producto>>> GetProductosInactivos()
         {
-            // La lógica es la misma que GetProductos, pero filtramos por !EstaActivo
             return await _context.Productos
                 .Where(p => !p.EstaActivo)
                 .Include(p => p.Categorias)
                 .ToListAsync();
         }
 
-        // --- AÑADIDO: Endpoint para reactivar un producto ---
         // POST: api/productos/5/reactivar
         [HttpPost("{id}/reactivar")]
         public async Task<IActionResult> ReactivarProducto(long id)
@@ -157,7 +148,6 @@ namespace LibreriaChacon.Server.Controllers
                 return NotFound();
             }
 
-            // Cambiamos el estado de vuelta a activo
             producto.EstaActivo = true;
             await _context.SaveChangesAsync();
 

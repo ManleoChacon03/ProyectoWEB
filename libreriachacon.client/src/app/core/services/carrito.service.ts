@@ -1,4 +1,3 @@
-// En src/app/core/services/carrito.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CartItem } from '../models/cart-item.model';
@@ -35,7 +34,6 @@ export class CarritoService {
     this.guardarCarrito(items);
   }
 
-  // --- MÉTODOS AÑADIDOS ---
 
   updateQuantity(productoId: number, cantidad: number): void {
     let items = [...this.itemsSubject.value];
@@ -45,7 +43,6 @@ export class CarritoService {
       itemExistente.cantidad = cantidad;
     }
     
-    // Si la cantidad es 0 o menos, eliminamos el producto
     if (cantidad <= 0) {
       items = items.filter(i => i.producto.id !== productoId);
     }

@@ -2,7 +2,7 @@
 {
     using LibreriaChacon.Server.Models;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic; // Necesario para el Dictionary
+    using System.Collections.Generic; 
 
     public class ApplicationDbContext : DbContext
     {
@@ -13,17 +13,14 @@
         public DbSet<Perfil> Perfiles { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-
-        // --- AÑADE ESTOS DbSet PARA LAS NUEVAS TABLAS ---
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<DetallePedido> DetallePedido { get; set; }
         public DbSet<Direccion> Direcciones { get; set; }
         public DbSet<ReseñaProducto> ReseñasProducto { get; set; }
         public DbSet<Pago> Pagos { get; set; }
         public DbSet<Devolucion> Devoluciones { get; set; }
-        public DbSet<DetalleDevolucion> DetalleDevolucion { get; set; } // <-- AÑADE ESTA LÍNEA
+        public DbSet<DetalleDevolucion> DetalleDevolucion { get; set; } 
 
-        // -----------------------------------------------
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

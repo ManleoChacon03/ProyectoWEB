@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PerfilService } from '../../core/services/perfil.service'; // <-- CAMBIO: Importamos PerfilService
+import { PerfilService } from '../../core/services/perfil.service'; 
 
-// Módulos necesarios para el componente standalone
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,13 +33,14 @@ export class RegistroComponent {
 
   constructor(
     private fb: FormBuilder,
-    private perfilService: PerfilService, // <-- CAMBIO: Inyectamos PerfilService en lugar de AuthService
+    private perfilService: PerfilService, 
     private router: Router
   ) {
     this.registroForm = this.fb.group({
       nombreCompleto: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      nit: [''] 
     });
   }
 
@@ -52,7 +52,6 @@ export class RegistroComponent {
     this.errorMessage = null;
     this.successMessage = null;
 
-    // <-- CAMBIO: Usamos perfilService para llamar al método de registro
     this.perfilService.registro(this.registroForm.value).subscribe({
       next: () => {
         this.successMessage = '¡Registro exitoso! Serás redirigido al login en 3 segundos.';
@@ -62,7 +61,6 @@ export class RegistroComponent {
       },
       error: (err) => {
         console.error('Error en el registro', err);
-        // El error del backend ahora puede ser más específico (ej. "El correo ya existe")
         this.errorMessage = err.error.title || err.error || 'Ocurrió un error en el registro.';
       }
     });

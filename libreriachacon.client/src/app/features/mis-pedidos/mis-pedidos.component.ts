@@ -1,28 +1,30 @@
-// En features/mis-pedidos/mis-pedidos.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Pedido, DetallePedido } from '../../core/models/pedido.model'; // <-- Importa DetallePedido
+import { Pedido, DetallePedido } from '../../core/models/pedido.model'; 
 import { PedidoService } from '../../core/services/pedido.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // <-- 1. IMPORTA MatDialog y MatDialogModule
-import { DevolucionFormComponent } from '../devolucion-form/devolucion-form.component'; // <-- 2. IMPORTA el componente del formulario
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'; 
+import { DevolucionFormComponent } from '../devolucion-form/devolucion-form.component'; 
+import { saveAs } from 'file-saver'; 
 
 
 // --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button'; // <-- 3. AÑADE para el botón
+import { MatButtonModule } from '@angular/material/button'; 
 
 @Component({
   selector: 'app-mis-pedidos',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatExpansionModule,
     MatIconModule,
     MatCardModule,
-    MatDialogModule,  // <-- 4. AÑADE el módulo aquí
-    MatButtonModule   // <-- 5. Y este también
+    MatDialogModule,  
+    MatButtonModule   
   ],
   templateUrl: './mis-pedidos.component.html',
   styleUrls: ['./mis-pedidos.component.css']
@@ -33,7 +35,7 @@ export class MisPedidosComponent implements OnInit {
 
   constructor(
     private pedidoService: PedidoService,
-    private dialog: MatDialog // Inyecta MatDialog
+    private dialog: MatDialog 
   ) { }
 
   ngOnInit(): void {
@@ -42,13 +44,19 @@ export class MisPedidosComponent implements OnInit {
     });
   }
 
-  // Método para abrir el diálogo
   abrirFormularioDevolucion(pedido: Pedido): void {
     this.dialog.open(DevolucionFormComponent, {
       width: '600px',
-      data: pedido // Enviamos los datos del pedido al formulario
+      data: pedido 
     });
   }
+
+  descargarFactura(pedido: Pedido): void {
+    this.pedidoService.getFacturaPdf(pedido.id).subscribe(blob => {
+      saveAs(blob, `Factura-Orden-${pedido.id}.pdf`);
+    });
+  }
+
   // Calcula la venta neta (Total - Devoluciones Aprobadas)
   calcularVentaNeta(pedido: Pedido): number {
     const montoDevuelto = pedido.devoluciones
@@ -61,7 +69,7 @@ export class MisPedidosComponent implements OnInit {
   calcularCantidadNeta(item: DetallePedido, pedido: Pedido): number {
     const cantidadDevuelta = pedido.devoluciones
       .filter(d => d.estado === 'Aprobada')
-      .flatMap(d => d.detalleDevolucion) // Obtiene todos los items de todas las devoluciones
+      .flatMap(d => d.detalleDevolucion) 
       .filter(dd => dd.productoId === item.producto.id)
       .reduce((sum, dd) => sum + dd.cantidad, 0);
     return item.cantidad - cantidadDevuelta;

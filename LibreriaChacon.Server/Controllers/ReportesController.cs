@@ -1,5 +1,4 @@
-﻿// En Controllers/ReportesController.cs
-using LibreriaChacon.Server.Contexts;
+﻿using LibreriaChacon.Server.Contexts;
 using LibreriaChacon.Server.Documents;
 using LibreriaChacon.Server.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +42,6 @@ namespace LibreriaChacon.Server.Controllers
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Reporte de Ventas");
-                // --- Encabezados Actualizados ---
                 var headers = new string[] { "Pedido #", "Fecha", "Tipo", "Vendido Por", "Cliente", "NIT", "# Items", "Monto Total", "Monto Devuelto", "Venta Neta", "IVA", "Ganancia" };
                 for (int i = 0; i < headers.Length; i++)
                 {
@@ -53,7 +51,6 @@ namespace LibreriaChacon.Server.Controllers
 
                 if (ventas.Any())
                 {
-                    // --- Datos para Excel Actualizados ---
                     var dataForExcel = ventas.Select(v => new { v.PedidoId, v.FechaVenta, v.TipoVenta, v.VendidoPor, v.ClienteNombre, v.ClienteNit, v.TotalItems, v.MontoTotal, v.MontoDevuelto, VentaNeta = v.VentaNeta, v.Iva, v.Ganancia }).ToList();
                     worksheet.Cells["A2"].LoadFromCollection(dataForExcel, false);
                 }
@@ -79,7 +76,6 @@ namespace LibreriaChacon.Server.Controllers
             return File(pdfBytes, "application/pdf", pdfName);
         }
 
-        // --- MÉTODO PRIVADO CON LA LÓGICA DE GANANCIA CORREGIDA ---
         private async Task<List<ReporteVentaDto>> ObtenerDatosReporte(DateTime fechaInicio, DateTime fechaFin, string? tipoVenta)
         {
             fechaFin = fechaFin.Date.AddDays(1).AddTicks(-1);
@@ -87,7 +83,7 @@ namespace LibreriaChacon.Server.Controllers
             var query = _context.Pedidos
                 .Include(p => p.Usuario)
                 .Include(p => p.DetallePedido)
-                    .ThenInclude(d => d.Producto) // <-- Incluimos el producto para obtener su COSTO
+                    .ThenInclude(d => d.Producto) 
                 .Where(p => p.FechaCreacion >= fechaInicio && p.FechaCreacion <= fechaFin);
 
             if (!string.IsNullOrEmpty(tipoVenta) && tipoVenta != "Todas")
@@ -101,7 +97,7 @@ namespace LibreriaChacon.Server.Controllers
 
             var devolucionesAprobadas = await _context.Devoluciones
                 .Include(d => d.DetalleDevolucion)
-                    .ThenInclude(dd => dd.Producto) // <-- Incluimos el producto para obtener el COSTO de lo devuelto
+                    .ThenInclude(dd => dd.Producto) 
                 .Where(d => d.Estado == "Aprobada" && pedidoIds.Contains(d.PedidoId))
                 .ToListAsync();
 
@@ -115,7 +111,7 @@ namespace LibreriaChacon.Server.Controllers
                 var montoSinIva = ventaNeta / 1.12m;
                 var iva = ventaNeta - montoSinIva;
 
-                // --- ESTA ES LA LÓGICA DE GANANCIA QUE SE AJUSTA A TU NEGOCIO ---
+                // LÓGICA DE GANANCIA
                 var costoTotalOriginal = p.DetallePedido.Sum(d => (d.Producto.Costo ?? 0) * d.Cantidad);
 
                 var devolucionesDeEstePedido = devolucionesAprobadas.Where(d => d.PedidoId == p.Id);

@@ -1,57 +1,154 @@
-<div class="pedidos-container">
-  <h1>Mis Pedidos</h1>
-
-  <div *ngIf="pedidos.length > 0; else noPedidos">
-    <mat-accordion multi>
-      <mat-expansion-panel *ngFor="let pedido of pedidos">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Orden #{{ pedido.id }}
-          </mat-panel-title>
-          <mat-panel-description>
-            <span>Fecha: {{ pedido.fechaCreacion | date:'dd/MM/yyyy' }}</span>
-            <span>Estado: {{ pedido.estado }}</span>
-            <span>Total: {{ calcularVentaNeta(pedido) | currency:'Q' }}</span>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <h4>Detalles del Pedido</h4>
-
-        <div class="detalle-grid">
-          <div *ngFor="let item of pedido.detallePedido" class="detalle-item">
-            <img [src]="item.producto.imagenUrl || 'https://via.placeholder.com/80'" alt="{{ item.producto.nombre }}">
-            <div class="item-info">
-              <strong>{{ item.producto.nombre }}</strong>
-              <span>Cantidad: {{ calcularCantidadNeta(item, pedido) }}</span>
-              <span>Precio unitario: {{ item.precioCompra | currency:'Q' }}</span>
-            </div>
-          </div>
-        </div>
-        <div *ngIf="pedido.devoluciones && pedido.devoluciones.length > 0" class="devoluciones-section">
-          <h4>Devoluciones Asociadas</h4>
-          <div *ngFor="let devolucion of pedido.devoluciones" class="devolucion-info">
-            <span><strong>Solicitud #{{ devolucion.id }}:</strong> Estado: <strong>{{ devolucion.estado }}</strong></span>
-            <span>Fecha de Solicitud: {{ devolucion.fechaSolicitud | date:'short' }}</span>
-            <span>Motivo: {{ devolucion.motivo }}</span>
-          </div>
-        </div>
-
-        <div class="panel-actions">
-          <button mat-stroked-button color="primary"
-                  (click)="abrirFormularioDevolucion(pedido)"
-                  [disabled]="pedido.devoluciones && pedido.devoluciones.length > 0">
-            Solicitar Devolución
-          </button>
-        </div>
-
-      </mat-expansion-panel>
-    </mat-accordion>
+<!-- Content Header -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">
+          <mat-icon class="page-icon">receipt_long</mat-icon>
+          Mis Pedidos
+        </h1>
+      </div>
+      <div class="col-sm-6">
+       
+      </div>
+    </div>
   </div>
-
-  <ng-template #noPedidos>
-    <mat-card class="empty-card">
-      <mat-icon>receipt_long</mat-icon>
-      <h2>Aún no has realizado ningún pedido.</h2>
-    </mat-card>
-  </ng-template>
 </div>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <!-- Lista de pedidos -->
+    <div *ngIf="pedidos.length > 0; else noPedidos">
+      <mat-accordion multi class="pedidos-accordion">
+        <mat-expansion-panel *ngFor="let pedido of pedidos" class="pedido-panel">
+
+          <!-- Header del panel -->
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="panel-title-content">
+                <span class="orden-badge">#{{ pedido.id }}</span>
+                <span class="orden-label">Orden</span>
+              </div>
+            </mat-panel-title>
+            <mat-panel-description>
+              <div class="panel-description-content">
+                <div class="desc-item">
+                  <span>{{ pedido.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="desc-item">
+                  <span class="estado-badge"
+                        [class.estado-pendiente]="pedido.estado === 'Pendiente'"
+                        [class.estado-procesando]="pedido.estado === 'Procesando'"
+                        [class.estado-enviado]="pedido.estado === 'Enviado'"
+                        [class.estado-completado]="pedido.estado === 'Completado'"
+                        [class.estado-cancelado]="pedido.estado === 'Cancelado'">
+                    {{ pedido.estado }}
+                  </span>
+                </div>
+                <div class="desc-item total-item">
+                  <strong>{{ calcularVentaNeta(pedido) | currency:'GTQ':'Q' }}</strong>
+                </div>
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- Contenido del panel -->
+          <div class="panel-content">
+
+            <!-- Detalles del pedido -->
+            <div class="section-header">
+              <h4>Productos del Pedido</h4>
+            </div>
+
+            <div class="detalle-grid">
+              <div *ngFor="let item of pedido.detallePedido" class="detalle-item">
+                <div class="detalle-image">
+                  <img [src]="item.producto.imagenUrl || 'https://via.placeholder.com/100'"
+                       alt="{{ item.producto.nombre }}">
+                </div>
+                <div class="detalle-info">
+                  <strong class="producto-nombre">{{ item.producto.nombre }}</strong>
+                  <div class="producto-details">
+                    <span class="detail-row">
+                      Cantidad: <strong>{{ calcularCantidadNeta(item, pedido) }}</strong>
+                    </span>
+                    <span class="detail-row">
+                      Precio: <strong>{{ item.precioCompra | currency:'GTQ':'Q' }}</strong>
+                    </span>
+                    <span class="detail-row subtotal">
+                      Subtotal: <strong>{{ calcularCantidadNeta(item, pedido) * item.precioCompra | currency:'GTQ':'Q' }}</strong>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Devoluciones -->
+            <div *ngIf="pedido.devoluciones && pedido.devoluciones.length > 0" class="devoluciones-section">
+              <div class="section-header">
+                <h4>Devoluciones Asociadas</h4>
+              </div>
+
+              <div *ngFor="let devolucion of pedido.devoluciones" class="devolucion-card">
+                <div class="devolucion-header">
+                  <span class="devolucion-id">Solicitud #{{ devolucion.id }}</span>
+                  <span class="devolucion-estado"
+                        [class.estado-solicitada]="devolucion.estado === 'Solicitada'"
+                        [class.estado-aprobada]="devolucion.estado === 'Aprobada'"
+                        [class.estado-rechazada]="devolucion.estado === 'Rechazada'">
+                    {{ devolucion.estado }}
+                  </span>
+                </div>
+                <div class="devolucion-body">
+                  <div class="devolucion-row">
+                    <span>{{ devolucion.fechaSolicitud | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                  <div class="devolucion-row">
+                    <span>{{ devolucion.motivo }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Acciones del panel -->
+            <div class="panel-actions">
+              <button mat-raised-button
+                      color="warn"
+                      (click)="abrirFormularioDevolucion(pedido)"
+                      [disabled]="pedido.devoluciones && pedido.devoluciones.length > 0"
+                      class="devolucion-btn">
+                Solicitar Devolución
+              </button>
+
+              <button mat-raised-button
+                      color="primary"
+                      (click)="descargarFactura(pedido)"
+                      class="factura-btn">
+                Descargar Factura
+              </button>
+            </div>
+
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Sin pedidos -->
+    <ng-template #noPedidos>
+      <div class="card empty-card">
+        <div class="card-body">
+          <div class="empty-content">
+            <h2>Aún no has realizado ningún pedido</h2>
+            <p>Explora nuestro catálogo y realiza tu primera compra</p>
+            <button mat-raised-button color="primary" routerLink="/productos">
+              Ver Productos
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

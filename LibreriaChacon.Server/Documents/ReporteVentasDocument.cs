@@ -52,7 +52,6 @@ namespace LibreriaChacon.Server.Documents
         {
             container.PaddingVertical(40).Column(column =>
             {
-                // --- Tabla de Ventas (Adaptada) ---
                 column.Item().Table(table =>
                 {
                     // Encabezados de la tabla
@@ -94,7 +93,6 @@ namespace LibreriaChacon.Server.Documents
                     }
                 });
 
-                // --- Totales del Reporte (Adaptado) ---
                 var totalVentaBruta = _ventas.Sum(v => v.MontoTotal);
                 var totalDevoluciones = _ventas.Sum(v => v.MontoDevuelto);
                 var totalVentaNeta = _ventas.Sum(v => v.VentaNeta);

@@ -13,6 +13,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
+          <mat-label>NIT (Opcional)</mat-label>
+          <input matInput formControlName="nit" placeholder="Ej: 1234567-8">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
           <mat-label>Correo Electrónico</mat-label>
           <input matInput formControlName="email" type="email" required>
         </mat-form-field>
@@ -35,7 +40,7 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-      <a mat-button routerLink="/login">¿Ya tienes cuenta? Inicia Sesión</a>
+      
       <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="registroForm.invalid">
         Registrarse
       </button>

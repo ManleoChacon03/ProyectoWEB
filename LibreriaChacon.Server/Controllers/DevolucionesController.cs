@@ -1,5 +1,4 @@
-﻿// En Controllers/DevolucionesController.cs
-using LibreriaChacon.Server.Contexts;
+﻿using LibreriaChacon.Server.Contexts;
 using LibreriaChacon.Server.DTOs;
 using LibreriaChacon.Server.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +32,6 @@ namespace LibreriaChacon.Server.Controllers
             if (devolucion == null) return NotFound();
             if (devolucion.Estado != "Solicitada") return BadRequest("Esta devolución ya ha sido procesada.");
 
-            // Obtenemos los precios originales de la compra
             var detallesPedidoOriginal = await _context.DetallePedido
                 .Where(dp => dp.PedidoId == devolucion.PedidoId)
                 .ToListAsync();
@@ -66,7 +64,6 @@ namespace LibreriaChacon.Server.Controllers
             return Ok();
         }
 
-        // En Controllers/DevolucionesController.cs
         [HttpGet]
         [Authorize(Roles = "Administrador,Operador")]
         public async Task<ActionResult<IEnumerable<Devolucion>>> GetDevoluciones()

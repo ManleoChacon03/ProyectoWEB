@@ -11,9 +11,10 @@ namespace LibreriaChacon.Server.DTOs
         [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido.")]
         public string Email { get; set; }
 
-        // --- ESTA ES LA PROPIEDAD QUE TE FALTA ---
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
         public string Password { get; set; }
+
+        public string? Nit { get; set; }
     }
 }

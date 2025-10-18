@@ -1,6 +1,5 @@
-﻿// CAMBIO: Añadidos nuevos 'usings'
-using Microsoft.AspNetCore.Authorization;
-using LibreriaChacon.Server.DTOs; // Suponiendo que creas una carpeta DTOs
+﻿using Microsoft.AspNetCore.Authorization;
+using LibreriaChacon.Server.DTOs; 
 
 namespace LibreriaChacon.Server.Controllers
 {
@@ -11,7 +10,7 @@ namespace LibreriaChacon.Server.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // CAMBIO: Se protege todo el controlador por defecto. Solo usuarios con token pueden acceder.
+    [Authorize] 
     public class PerfilesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,15 +22,14 @@ namespace LibreriaChacon.Server.Controllers
 
         // GET: api/perfiles  (Obtener todos los perfiles)
         [HttpGet]
-        [Authorize(Roles = "Administrador")] // CAMBIO: Solo los administradores pueden ver todos los perfiles.
+        [Authorize(Roles = "Administrador")] 
         public async Task<ActionResult<IEnumerable<Perfil>>> GetPerfiles()
         {
             return await _context.Perfiles.ToListAsync();
         }
 
-        // GET: api/perfiles/{id}  (Obtener un perfil por su ID)
+        // GET: api/perfiles/{id} 
         [HttpGet("{id}")]
-        // CAMBIO: Se mantiene [Authorize]. Un usuario logueado puede ver perfiles (se podría mejorar para que solo vea el suyo).
         public async Task<ActionResult<Perfil>> GetPerfil(Guid id)
         {
             var perfil = await _context.Perfiles.FindAsync(id);
@@ -46,8 +44,8 @@ namespace LibreriaChacon.Server.Controllers
 
         // POST: api/perfiles  (Crear un nuevo perfil - REGISTRO)
         [HttpPost]
-        [AllowAnonymous] // CAMBIO: Se permite el acceso anónimo para que cualquiera pueda registrarse.
-        public async Task<ActionResult<Perfil>> PostPerfil(PerfilCreateDto perfilDto) // CAMBIO: Se usa un DTO en lugar del modelo.
+        [AllowAnonymous] 
+        public async Task<ActionResult<Perfil>> PostPerfil(PerfilCreateDto perfilDto) 
         {
             // Validar si el email ya existe
             if (await _context.Perfiles.AnyAsync(p => p.Email == perfilDto.Email))
@@ -55,7 +53,6 @@ namespace LibreriaChacon.Server.Controllers
                 return BadRequest("El correo electrónico ya está en uso.");
             }
 
-            // CAMBIO: Se mapea el DTO a un nuevo objeto Perfil y se hashea la contraseña.
             var perfil = new Perfil
             {
                 Id = Guid.NewGuid(),
@@ -63,19 +60,19 @@ namespace LibreriaChacon.Server.Controllers
                 Email = perfilDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(perfilDto.Password), // Hashing de la contraseña
                 Rol = "Cliente", // Se asigna el rol por defecto en el servidor
-                FechaCreacion = DateTime.UtcNow
+                FechaCreacion = DateTime.UtcNow,
+                Nit = perfilDto.Nit 
+
             };
 
             _context.Perfiles.Add(perfil);
             await _context.SaveChangesAsync();
 
-            // Devuelve una respuesta 201 Created con la ubicación del nuevo recurso
             return CreatedAtAction(nameof(GetPerfil), new { id = perfil.Id }, perfil);
         }
 
         // PUT: api/perfiles/{id}  (Actualizar un perfil existente)
-        // NOTA: Este método requeriría lógica adicional para manejar la actualización de contraseña de forma segura.
-        // Por ahora, se protege para que solo usuarios autenticados puedan intentarlo.
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPerfil(Guid id, Perfil perfil)
         {
@@ -84,10 +81,7 @@ namespace LibreriaChacon.Server.Controllers
                 return BadRequest();
             }
 
-            // ADVERTENCIA: Este método no maneja correctamente la actualización de contraseñas.
-            // Si el 'perfil' entrante no tiene la contraseña, podría borrar la existente.
-            // Se necesita una lógica más avanzada con un DTO de actualización.
-
+           
             _context.Entry(perfil).State = EntityState.Modified;
 
             try
@@ -111,7 +105,7 @@ namespace LibreriaChacon.Server.Controllers
 
         // DELETE: api/perfiles/{id}  (Eliminar un perfil)
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrador")] // CAMBIO: Solo los administradores pueden borrar perfiles.
+        [Authorize(Roles = "Administrador")] 
         public async Task<IActionResult> DeletePerfil(Guid id)
         {
             var perfil = await _context.Perfiles.FindAsync(id);

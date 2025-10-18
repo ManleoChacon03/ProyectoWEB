@@ -2,7 +2,7 @@
 using LibreriaChacon.Server.DTOs;
 using LibreriaChacon.Server.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Asegúrate de tener tu DbContext
+using Microsoft.EntityFrameworkCore; 
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +16,7 @@ namespace LibreriaChacon.Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ApplicationDbContext _context; // Tu DbContext
+        private readonly ApplicationDbContext _context; 
         private readonly IConfiguration _configuration;
 
         public AuthController(ApplicationDbContext context, IConfiguration configuration)
@@ -33,7 +33,7 @@ namespace LibreriaChacon.Server.Controllers
 
             if (perfil == null)
             {
-                return Unauthorized("Credenciales inválidas."); // Email no encontrado
+                return Unauthorized("Credenciales inválidas."); 
             }
 
             // 2. Verificar la contraseña con BCrypt
@@ -41,7 +41,7 @@ namespace LibreriaChacon.Server.Controllers
 
             if (!esPasswordValida)
             {
-                return Unauthorized("Credenciales inválidas."); // Contraseña incorrecta
+                return Unauthorized("Credenciales inválidas."); 
             }
 
             // 3. Si las credenciales son válidas, generar el token JWT
@@ -60,21 +60,19 @@ namespace LibreriaChacon.Server.Controllers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Crear los "claims" (información que viaja en el token)
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, perfil.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, perfil.Email),
-            new Claim("role", perfil.Rol), // <-- CAMBIO CLAVE: Usamos el string "role"
+            new Claim("role", perfil.Rol), 
             new Claim("nombre_completo", perfil.NombreCompleto)
-            // Puedes agregar más claims si lo necesitas
         };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(8), // Duración del token
+                expires: DateTime.Now.AddHours(8), 
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

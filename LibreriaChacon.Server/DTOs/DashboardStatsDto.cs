@@ -1,6 +1,5 @@
 ﻿namespace LibreriaChacon.Server.DTOs
 {
-    // En DTOs/DashboardStatsDto.cs
     public class DashboardStatsDto
     {
         public int TotalProductos { get; set; }

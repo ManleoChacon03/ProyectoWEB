@@ -1,4 +1,4 @@
-﻿// En Models/Perfil.cs
+﻿using LibreriaChacon.Server.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +29,9 @@ public class Perfil
     [Column("fecha_creacion")]
     public DateTime FechaCreacion { get; set; }
 
-    [Column("nit")] // <-- AÑADIDO
+    [Column("nit")] 
     public string? Nit { get; set; }
+
+    public ICollection<Direccion> Direcciones { get; set; } = new List<Direccion>();
+
 }

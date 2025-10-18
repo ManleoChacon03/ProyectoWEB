@@ -1,26 +1,143 @@
-<div class="container">
-  <h1>Gestión de Devoluciones</h1>
-
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="id"> <th mat-header-cell *matHeaderCellDef> Solicitud # </th> <td mat-cell *matCellDef="let d"> {{d.id}} </td> </ng-container>
-      <ng-container matColumnDef="pedidoId"> <th mat-header-cell *matHeaderCellDef> Pedido # </th> <td mat-cell *matCellDef="let d"> {{d.pedidoId}} </td> </ng-container>
-      <ng-container matColumnDef="usuario"> <th mat-header-cell *matHeaderCellDef> Cliente </th> <td mat-cell *matCellDef="let d"> {{d.usuario?.nombreCompleto || 'N/A'}} </td> </ng-container>
-      <ng-container matColumnDef="motivo"> <th mat-header-cell *matHeaderCellDef> Motivo </th> <td mat-cell *matCellDef="let d"> {{d.motivo}} </td> </ng-container>
-      <ng-container matColumnDef="fechaSolicitud"> <th mat-header-cell *matHeaderCellDef> Fecha Solicitud </th> <td mat-cell *matCellDef="let d"> {{d.fechaSolicitud | date:'short'}} </td> </ng-container>
-      <ng-container matColumnDef="estado"> <th mat-header-cell *matHeaderCellDef> Estado </th> <td mat-cell *matCellDef="let d"> {{d.estado}} </td> </ng-container>
-
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef> Acciones </th>
-        <td mat-cell *matCellDef="let devolucion">
-          <button *ngIf="devolucion.estado === 'Solicitada'" mat-icon-button color="primary" (click)="aprobar(devolucion)" matTooltip="Aprobar devolución">
-            <mat-icon>check_circle</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+<!-- Content Header -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">
+          Gestión de Devoluciones
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          Solicitudes de Devolución
+        </h3>
+        <div class="card-badge">
+          <span class="badge-warning">{{dataSource.data.length}} solicitudes</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" matSort class="devoluciones-table">
+
+            <!-- Columna Solicitud ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Solicitud #</th>
+              <td mat-cell *matCellDef="let d">
+                <span class="solicitud-badge">#{{d.id}}</span>
+              </td>
+            </ng-container>
+
+            <!-- Columna Pedido ID -->
+            <ng-container matColumnDef="pedidoId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Pedido #
+              </th>
+              <td mat-cell *matCellDef="let d">
+                <span class="pedido-badge">#{{d.pedidoId}}</span>
+              </td>
+            </ng-container>
+
+            <!-- Columna Cliente -->
+            <ng-container matColumnDef="usuario">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Cliente
+              </th>
+              <td mat-cell *matCellDef="let d" class="cliente-cell">
+                <div class="cliente-info">
+                  <span>{{d.usuario?.nombreCompleto || 'N/A'}}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Columna Motivo -->
+            <ng-container matColumnDef="motivo">
+              <th mat-header-cell *matHeaderCellDef>
+                Motivo
+              </th>
+              <td mat-cell *matCellDef="let d" class="motivo-cell">
+                <span class="motivo-text">{{d.motivo}}</span>
+              </td>
+            </ng-container>
+
+            <!-- Columna Fecha -->
+            <ng-container matColumnDef="fechaSolicitud">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha Solicitud
+              </th>
+              <td mat-cell *matCellDef="let d">
+                {{d.fechaSolicitud | date:'dd/MM/yyyy HH:mm'}}
+              </td>
+            </ng-container>
+
+            <!-- Columna Estado -->
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Estado
+              </th>
+              <td mat-cell *matCellDef="let d">
+                <span class="estado-badge"
+                      [class.estado-solicitada]="d.estado === 'Solicitada'"
+                      [class.estado-aprobada]="d.estado === 'Aprobada'"
+                      [class.estado-rechazada]="d.estado === 'Rechazada'">
+                  {{d.estado}}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Columna Acciones -->
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef>Acciones</th>
+              <td mat-cell *matCellDef="let devolucion">
+                <button *ngIf="devolucion.estado === 'Solicitada'"
+                        mat-raised-button
+                        color="primary"
+                        class="aprobar-btn"
+                        (click)="aprobar(devolucion)"
+                        matTooltip="Aprobar devolución">
+                  Aprobar
+                </button>
+                <span *ngIf="devolucion.estado !== 'Solicitada'" class="estado-procesado">
+                  <mat-icon>{{devolucion.estado === 'Aprobada' ? 'check_circle' : 'cancel'}}</mat-icon>
+                  Procesada
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+
+            <!-- Sin datos -->
+            <tr class="mat-row no-data-row" *matNoDataRow>
+              <td class="mat-cell" colspan="7">
+                <div class="no-data-message">
+                  <mat-icon>inbox</mat-icon>
+                  <p>No hay solicitudes de devolución</p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Paginador -->
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"
+                       [pageSize]="10"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+
+  </div>
+</section>

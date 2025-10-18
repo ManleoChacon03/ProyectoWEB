@@ -1,11 +1,9 @@
-// En src/app/core/components/layout/layout.component.ts
 
-import { Component, OnDestroy, OnInit } from '@angular/core'; // <-- Se añaden OnInit y OnDestroy
+import { Component, OnDestroy, OnInit } from '@angular/core'; 
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs'; // <-- Se añade Subscription
+import { Subscription } from 'rxjs'; 
 
-// --- IMPORTS DE ANGULAR MATERIAL (ya los tenías) ---
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -34,36 +32,35 @@ export class LayoutComponent implements OnInit, OnDestroy {
     { name: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
     { name: 'Perfiles', route: '/perfiles', icon: 'people' },
     { name: 'Productos', route: '/productos', icon: 'inventory_2' },
-    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
-    { name: 'Reportes', route: '/reportes', icon: 'bar_chart' }, // <-- Activa esta línea
-    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
-    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, // <-- Añade esta línea
+    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' },
+    { name: 'Reportes', route: '/reportes', icon: 'bar_chart' }, 
+    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, 
+    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, 
+    { name: 'Inventario', route: '/inventario', icon: 'inventory' },
 
   ];
 
   private empleadoMenu = [
     { name: 'Productos', route: '/productos', icon: 'inventory_2' },
-    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, // <-- Activa esta línea
-    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, // <-- Activa esta línea
-    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, // <-- Añade esta línea
+    { name: 'Venta en Tienda', route: '/venta-tienda', icon: 'point_of_sale' }, 
+    { name: 'Pedidos', route: '/pedidos', icon: 'shopping_basket' }, 
+    { name: 'Devoluciones', route: '/gestion-devoluciones', icon: 'assignment_return' }, 
+    { name: 'Inventario', route: '/inventario', icon: 'inventory' },
 
   ];
 
   private clienteMenu = [
     { name: 'Catálogo', route: '/productos', icon: 'store' },
-    { name: 'Carrito', route: '/carrito', icon: 'shopping_cart' }, // <-- Activa esta línea
-    { name: 'Mis Pedidos', route: '/mis-pedidos', icon: 'receipt_long' }, // <-- Activa esta línea
+    { name: 'Carrito', route: '/carrito', icon: 'shopping_cart' }, 
+    { name: 'Mis Pedidos', route: '/mis-pedidos', icon: 'receipt_long' }, 
 
-    // { name: 'Mis Pedidos', route: '/mis-pedidos', icon: 'receipt_long' },
   ];
 
   constructor(private authService: AuthService, private router: Router) {
-    // CAMBIO: El constructor ahora solo inicializa la suscripción
     this.userSubscription = new Subscription();
   }
 
   ngOnInit(): void {
-    // CAMBIO PRINCIPAL: Nos suscribimos a los cambios del usuario en el AuthService
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.userName = user.nombreCompleto;
@@ -76,7 +73,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Buena práctica para evitar fugas de memoria
     this.userSubscription.unsubscribe();
   }
 

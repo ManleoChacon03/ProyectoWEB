@@ -1,6 +1,5 @@
-// En features/dashboard/dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // Importamos HttpClient
+import { HttpClient } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
 
 // --- IMPORTS DE ANGULAR MATERIAL ---
@@ -13,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 
-// Creamos una interfaz para los datos que recibiremos
+
 export interface DashboardStats {
   totalProductos: number;
   totalClientes: number;
@@ -27,7 +26,7 @@ export interface DashboardStats {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule, // <-- 2. AÑADE RouterModule aquí
+    RouterModule, 
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -39,11 +38,9 @@ export interface DashboardStats {
 })
 export class DashboardComponent implements OnInit {
 
-  // Usamos un Observable para manejar los datos de forma reactiva
   stats$: Observable<DashboardStats>;
 
   constructor(private http: HttpClient) {
-    // Inicializamos el observable vacío
     this.stats$ = new Observable<DashboardStats>();
   }
 

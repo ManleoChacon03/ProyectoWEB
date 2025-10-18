@@ -1,11 +1,9 @@
-// En features/devolucion-form/devolucion-form.component.ts
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { DevolucionService } from '../../core/services/devolucion.service';
 import { Pedido } from '../../core/models/pedido.model';
 
-// --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,29 +28,26 @@ export class DevolucionFormComponent implements OnInit {
     private fb: FormBuilder,
     private devolucionService: DevolucionService,
     public dialogRef: MatDialogRef<DevolucionFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public pedido: Pedido // Recibimos el pedido completo
+    @Inject(MAT_DIALOG_DATA) public pedido: Pedido 
   ) {
     this.devolucionForm = this.fb.group({
       motivo: ['', Validators.required],
-      items: this.fb.array([]) // El FormArray para los productos
+      items: this.fb.array([]) 
     });
   }
 
   ngOnInit(): void {
-    // Llenamos el FormArray con los productos del pedido
     this.pedido.detallePedido.forEach(item => {
       this.items.push(this.fb.group({
-        seleccionar: [false], // Checkbox para seleccionar si se devuelve
+        seleccionar: [false], 
         productoId: [item.producto.id],
         nombre: [item.producto.nombre],
-        // Validador para que la cantidad no sea mayor a la comprada
         cantidad: [item.cantidad, [Validators.max(item.cantidad), Validators.min(1)]],
-        cantidadOriginal: [item.cantidad] // Guardamos la cantidad original para mostrarla
+        cantidadOriginal: [item.cantidad] 
       }));
     });
   }
 
-  // Getter para acceder fácilmente al FormArray
   get items(): FormArray {
     return this.devolucionForm.get('items') as FormArray;
   }
@@ -62,7 +57,6 @@ export class DevolucionFormComponent implements OnInit {
       return;
     }
 
-    // Filtramos solo los items que el usuario seleccionó
     const itemsSeleccionados = this.devolucionForm.value.items
       .filter((item: any) => item.seleccionar)
       .map((item: any) => ({
@@ -84,7 +78,7 @@ export class DevolucionFormComponent implements OnInit {
     this.devolucionService.solicitarDevolucion(devolucionData).subscribe({
       next: () => {
         alert('Solicitud de devolución enviada con éxito.');
-        this.dialogRef.close(true); // Cerramos el diálogo
+        this.dialogRef.close(true);
       },
       error: (err) => {
         console.error(err);

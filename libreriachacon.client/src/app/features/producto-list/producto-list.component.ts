@@ -1,4 +1,3 @@
-// En features/producto-list/producto-list.component.ts
 
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -26,7 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR ESTO
+import { MatTooltipModule } from '@angular/material/tooltip'; 
 
 
 @Component({
@@ -47,13 +46,11 @@ export class ProductoListComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription;
   private refreshSubscription: Subscription;
 
-  // --- Propiedades para la vista de Admin ---
   viendoInactivos = false;
   displayedColumns: string[] = ['imagen', 'nombre', 'precio', 'cantidadStock', 'categorias', 'acciones'];
   dataSource = new MatTableDataSource<Producto>();
   filtrosAdmin = { nombre: '', categoriaId: '', soloBajoStock: false };
 
-  // --- Propiedades para la vista de Cliente ---
   todosLosProductos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   productosPaginados: Producto[] = [];
@@ -114,7 +111,7 @@ export class ProductoListComponent implements OnInit, OnDestroy {
     this.categoriaService.getCategorias().subscribe(data => { this.categorias = data; });
   }
 
-  // --- LÓGICA DE ADMIN ---
+  //  LÓGICA DE ADMIN 
   aplicarFiltroAdmin(): void {
     this.dataSource.filter = JSON.stringify(this.filtrosAdmin);
     if (this.dataSource.paginator) { this.dataSource.paginator.firstPage(); }

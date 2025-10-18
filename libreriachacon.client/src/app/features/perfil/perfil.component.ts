@@ -1,24 +1,24 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table'; // <--- Añadido MatTableModule
-import { MatSort, MatSortModule } from '@angular/material/sort'; // <--- Añadido MatSortModule
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; // <--- Añadido MatPaginatorModule
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort'; 
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; 
 
-// --- IMPORTS AÑADIDOS ---
+//Imports Standalone
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common'; // Necesario para *ngIf, *ngFor, etc.
+import { CommonModule } from '@angular/common'; 
 import { Perfil } from '../../core/models/perfil.model';
 import { PerfilService } from '../../core/services/perfil.service';
-import { MatTooltipModule } from '@angular/material/tooltip'; // <-- AGREGAR
-import { RouterModule } from '@angular/router'; // <-- AGREGAR para routerLink
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
-  selector: 'app-perfil', // Asegúrate que el selector sea el correcto
-  standalone: true, // Se mantiene como standalone
+  selector: 'app-perfil', 
+  standalone: true, 
   imports: [
-    // --- AÑADE ESTE ARRAY DE IMPORTS ---
+   
     CommonModule,
     MatTableModule,
     RouterModule,
@@ -35,7 +35,6 @@ import { RouterModule } from '@angular/router'; // <-- AGREGAR para routerLink
 })
 export class PerfilComponent implements OnInit, AfterViewInit {
 
-  // ... (El resto de tu código de la clase no cambia)
 
   displayedColumns: string[] = ['nombreCompleto', 'email', 'rol', 'acciones'];
   dataSource = new MatTableDataSource<Perfil>();

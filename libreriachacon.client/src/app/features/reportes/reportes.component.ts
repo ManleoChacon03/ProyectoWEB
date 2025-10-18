@@ -1,13 +1,12 @@
-// En features/reportes/reportes.component.ts
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ReporteService } from '../../core/services/reporte.service'; // Se usa el servicio
-import { saveAs } from 'file-saver'; // Se importa 'saveAs'
+import { ReporteService } from '../../core/services/reporte.service'; 
+import { saveAs } from 'file-saver'; 
 
 // --- Imports de Standalone ---
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // <-- AGREGAR
+import { RouterModule } from '@angular/router'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -55,7 +54,7 @@ export class ReportesComponent {
   totalGanancia = 0;
   totalGeneralVentas = 0;
 
-  constructor(private reporteService: ReporteService) { } // Se inyecta el servicio
+  constructor(private reporteService: ReporteService) { } 
 
   generarReporte(): void {
     if (!this.filtroForm.value.fechaInicio || !this.filtroForm.value.fechaFin) {
@@ -78,7 +77,7 @@ export class ReportesComponent {
       return;
     }
 
-    this.reporteService.getReporteExcel(this.filtroForm.value).subscribe((blob: Blob) => { // <-- TIPO AÑADIDO
+    this.reporteService.getReporteExcel(this.filtroForm.value).subscribe((blob: Blob) => { 
       saveAs(blob, `ReporteVentas_${new Date().toISOString().slice(0, 10)}.xlsx`);
     });
   }

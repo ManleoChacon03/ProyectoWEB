@@ -1,4 +1,3 @@
-// En src/app/core/models/venta.dto.model.ts
 export interface VentaItemDto {
   productoId: number;
   nombre: string;

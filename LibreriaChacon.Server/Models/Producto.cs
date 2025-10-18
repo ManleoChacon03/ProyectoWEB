@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("productos")] // <-- AÑADE ESTA LÍNEA
+    [Table("productos")] 
     public class Producto
     {
         [Key]
@@ -31,13 +31,13 @@
         [Column("esta_activo")]
         public bool EstaActivo { get; set; }
 
-        [Column("precio_mayorista", TypeName = "decimal(18, 2)")] // <-- AÑADIDO
+        [Column("precio_mayorista", TypeName = "decimal(18, 2)")] 
         public decimal? PrecioMayorista { get; set; }
 
-        [Column("cantidad_mayorista")] // <-- AÑADIDO
+        [Column("cantidad_mayorista")] 
         public int? CantidadMayorista { get; set; }
 
-        [Column("costo", TypeName = "decimal(18, 2)")] // <-- AÑADE ESTO
+        [Column("costo", TypeName = "decimal(18, 2)")] 
         public decimal? Costo { get; set; }
 
         public ICollection<Categoria> Categorias { get; set; } = new List<Categoria>();

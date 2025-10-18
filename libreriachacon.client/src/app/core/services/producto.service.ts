@@ -1,4 +1,3 @@
-// En src/app/core/services/producto.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -32,7 +31,6 @@ export class ProductoService {
   deleteProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  // --- AÑADIDOS ---
   getProductosInactivos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/inactivos`);
   }
